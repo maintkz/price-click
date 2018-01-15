@@ -16,22 +16,22 @@ use yii\filters\auth\QueryParamAuth;
 class ShopsController extends ActiveController
 {
     public $modelClass = 'backend\models\Shops';
-    public function behaviors()
-    {
-        $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => HttpBasicAuth::className(),
-            'auth' => function($username, $password)
-            {
-                $out = null;
-                $user = \common\models\User::findByUsername($username);
-                if($user!=null)
-                {
-                    if($user->validatePassword($password)) $out = $user;
-                }
-                return $out;
-            }
-        ];
-        return $behaviors;
-    }
+//    public function behaviors()
+//    {
+//        $behaviors = parent::behaviors();
+//        $behaviors['authenticator'] = [
+//            'class' => HttpBasicAuth::className(),
+//            'auth' => function($username, $password)
+//            {
+//                $out = null;
+//                $user = \common\models\User::findByUsername($username);
+//                if($user!=null)
+//                {
+//                    if($user->validatePassword($password)) $out = $user;
+//                }
+//                return $out;
+//            }
+//        ];
+//        return $behaviors;
+//    }
 }

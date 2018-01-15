@@ -7,17 +7,19 @@ use Yii;
 /**
  * This is the model class for table "shops".
  *
- * @property string $shop_id
+ * @property integer $shop_id
+ * @property integer $user_id
  * @property string $shop_name
  * @property string $shop_img
- * @property string $shop_min_price
+ * @property integer $shop_min_price
  * @property string $shop_open_time
  * @property string $shop_close_time
- * @property string $shop_delivery_price
+ * @property integer $shop_delivery_price
  * @property string $shop_pay_options
  * @property string $shop_contacts
  * @property string $shop_description
- * @property integer $shop_status
+ * @property integer $shop_fast_delivery
+ * @property integer $shop_top
  */
 class Shops extends \yii\db\ActiveRecord
 {
@@ -35,8 +37,8 @@ class Shops extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shop_name'], 'required'],
-            [['shop_min_price', 'shop_delivery_price', 'shop_status'], 'integer'],
+            [['user_id', 'shop_name', 'shop_fast_delivery', 'shop_top'], 'required'],
+            [['user_id', 'shop_min_price', 'shop_delivery_price', 'shop_fast_delivery', 'shop_top'], 'integer'],
             [['shop_open_time', 'shop_close_time'], 'safe'],
             [['shop_pay_options', 'shop_contacts', 'shop_description'], 'string'],
             [['shop_name', 'shop_img'], 'string', 'max' => 200],
@@ -50,6 +52,7 @@ class Shops extends \yii\db\ActiveRecord
     {
         return [
             'shop_id' => 'Shop ID',
+            'user_id' => 'User ID',
             'shop_name' => 'Shop Name',
             'shop_img' => 'Shop Img',
             'shop_min_price' => 'Shop Min Price',
@@ -59,7 +62,8 @@ class Shops extends \yii\db\ActiveRecord
             'shop_pay_options' => 'Shop Pay Options',
             'shop_contacts' => 'Shop Contacts',
             'shop_description' => 'Shop Description',
-            'shop_status' => 'Shop Status',
+            'shop_fast_delivery' => 'Shop Fast Delivery',
+            'shop_top' => 'Shop Top',
         ];
     }
 }
