@@ -1,0 +1,16 @@
+.show-product-button, .edit-product-button, .delete-product-button{
+    padding: 0 2px;
+}
+
+#table-section td, #table-category td, #table-subcategory td {
+    cursor: pointer;
+}
+
+#table-section td:hover, #table-category td:hover, #table-subcategory td:hover {
+    background-color: #c4e5ff;
+}
+
+#table-section td.active, #table-category td.active, #table-subcategory td.active {
+    background-color: #4eb0fd !important;
+    color: #FFF;
+}
