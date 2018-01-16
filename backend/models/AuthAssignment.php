@@ -81,4 +81,12 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     *
+     */
+    public function getShops()
+    {
+        return $this->hasOne(Shops::className(), ['user_id' => 'user_id']);
+    }
 }

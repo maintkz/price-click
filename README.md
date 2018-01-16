@@ -1,10 +1,13 @@
  ## Города 
-    адрес: /cities
+    все: /cities
+    один: /cities/view?id=1
     метод: get
  ## Категории
-    адрес: /sections
+    все: /sections
+    один: /section/view?id=1
     метод: get
  ## Shops
-    адрес: /shops
+    все: /shops/city?city_id=1
+    один: /shops/view?id=1
     метод: get
     
