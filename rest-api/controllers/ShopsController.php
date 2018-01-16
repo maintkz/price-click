@@ -46,24 +46,15 @@ class ShopsController extends ActiveController
 
     public function actionCity($city_id)
     {
-//        return new ActiveDataProvider([
-//            'query' => Shops::find()->with('authAssignment')->where(['city_id' => $city_id]),
-//        ]);
-
-//        return new ActiveDataProvider([
-//            'query' => AuthAssignment::find()->with('shops')->where(['city_id' => $city_id]),
-//        ]);
-
         $shops = \backend\models\Shops::find()
             ->innerJoin('auth_assignment', '`auth_assignment`.`user_id` = `shops`.`user_id`')
             ->where(['city_id' => $city_id])
+            ->asArray()
             ->all();
-        return $shops;
-        $outData = [];
-        foreach($shops as $shop)
-        {
-            $outData[] = array_merge($shop->attributes, ['user_id' => $shop->authAssignment->attributes]);
+        if(count($shops) > 0) {
+            return $shops;
+        } else {
+            throw new \yii\web\NotFoundHttpException;
         }
-        return $outData;
     }
 }

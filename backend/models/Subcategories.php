@@ -50,4 +50,14 @@ class Subcategories extends \yii\db\ActiveRecord
             'category_name' => 'Category Name',
         ];
     }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        unset($fields['category_name'], $fields['section_name']);
+
+        return $fields;
+    }
+
 }

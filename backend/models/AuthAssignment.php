@@ -46,6 +46,7 @@ class AuthAssignment extends \yii\db\ActiveRecord
             'item_name' => 'Item Name',
             'user_id' => 'User ID',
             'status' => 'Status',
+            'city_id' => 'City ID',
             'created_at' => 'Created At',
         ];
     }
