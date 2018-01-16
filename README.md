@@ -10,4 +10,6 @@
     все: /shops/city?city_id=1
     один: /shops/view?id=1
     метод: get
-    
+ ## Slider
+    адрес: .slider-images/?city_id=1
+    метод: get

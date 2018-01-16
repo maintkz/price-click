@@ -24,4 +24,5 @@ class CategoriesController extends ActiveController
         ];
         return $behaviors;
     }
+
 }

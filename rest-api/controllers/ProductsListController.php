@@ -2,17 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: 1
- * Date: 15.01.2018
- * Time: 17:05
+ * Date: 16.01.2018
+ * Time: 14:41
  */
 
 namespace api\controllers;
 
+
 use yii\rest\ActiveController;
 
-class SliderImagesController extends ActiveController
+class ProductsListController extends ActiveController
 {
-    public $modelClass = 'backend\models\SliderImages';
+    public $modelClass = 'backend\models\ProductsList';
 
     public function behaviors()
     {
@@ -34,14 +35,17 @@ class SliderImagesController extends ActiveController
     }
 
 
-    public function actionIndex($city_id)
+    public function actionIndex($city_id, $section_id)
     {
-        $slider_images = \backend\models\SliderImages::find()
-            ->where(['city_id' => $city_id])
+        $products = \backend\models\ProductsList::find()
+            ->innerJoin('products', '`products`.`product_id` = `products_list`.`product_id`')
+            ->where(['product_list_status' => 1])
+            ->andWhere(['city_id' => $city_id])
+            ->andWhere(['section_id' => $section_id])
             ->asArray()
             ->all();
-        if(count($slider_images) > 0) {
-            return $slider_images;
+        if(count($products) > 0) {
+            return $products;
         } else {
             throw new \yii\web\NotFoundHttpException;
         }
