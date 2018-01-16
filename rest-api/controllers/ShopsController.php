@@ -54,7 +54,11 @@ class ShopsController extends ActiveController
 //            'query' => AuthAssignment::find()->with('shops')->where(['city_id' => $city_id]),
 //        ]);
 
-        $shops = \backend\models\Shops::find()->all();
+        $shops = \backend\models\Shops::find()
+            ->innerJoin('auth_assignment', '`auth_assignment`.`user_id` = `shops`.`user_id`')
+            ->where(['city_id' => $city_id])
+            ->all();
+        return $shops;
         $outData = [];
         foreach($shops as $shop)
         {
