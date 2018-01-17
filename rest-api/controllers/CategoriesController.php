@@ -32,4 +32,14 @@ class CategoriesController extends Controller
             return Functions::prepareResponse($categories);
         }
     }
+
+    public function actionCategoryStructure()
+    {
+        $section = \Yii::$app->request->get('section_id');
+        if(empty($section)) {
+            return Functions::badRequestResponse('Отсутвует ID раздела');
+        } else {
+            return Functions::getCategoryStructure($section);
+        }
+    }
 }

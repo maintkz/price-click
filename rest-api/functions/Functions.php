@@ -9,7 +9,9 @@
 namespace api\functions;
 
 
+use backend\models\Categories;
 use backend\models\ProductsList;
+use backend\models\Subcategories;
 
 class Functions
 {
@@ -73,5 +75,24 @@ class Functions
             ->innerJoin('subcategories', '`products_list`.`category_id` = `subcategories`.`category_id`')
             ->asArray();
         return $products;
+    }
+
+    public static function getCategoryStructure($section_id)
+    {
+        $categories = Subcategories::find()->where(['section_id' => $section_id])->asArray()->groupBy('category_id')->all();
+        for($i=0; $i<count($categories); $i++) {
+            $structure[$categories[$i]['category_id']]['name'] = $categories[$i]['category_name'];
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $subcategories = Subcategories::find()->where(['section_id' => $section_id])->asArray()->orderBy('category_id')->all();
+
+        for($i=0; $i<count($subcategories); $i++) {
+            $structure[$subcategories[$i]['category_id']]['subcategories'][$subcategories[$i]['subcategory_id']] = $subcategories[$i]['subcategory_name'];
+        }
+        for($i=0; $i<count($subcategories); $i++) {
+            $categories[$subcategories[$i]['category_name']][] = $subcategories[$i]['subcategory_name'];
+        }
+
+        return $structure;
     }
 }
