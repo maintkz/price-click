@@ -25,25 +25,13 @@ class ProductsController extends Controller
         } elseif(empty($section_id)) {
             return Functions::badRequestResponse('Отсутсвует ID раздела');
         } else {
-            $products = ProductsList::find()
-                ->select(
-                    '`product_list_id`,
-                    `products`.`product_id`,
-                    `section_id`,
-                    `category_id`,
-                    `subcategory_id`,
-                    `product_list_count`,
-                    `products`.`product_name`,
-                    `products`.`product_main_img`,
-                    `products`.`product_imgs`,
-                    `products`.`product_rating`,
-                    `products`.`product_price`,
-                    `products`.`product_parameters`,
-                    `products`.`product_description`'
-                )
-                ->innerJoin('products', '`products_list`.`product_id` = `products`.`product_id`')
-                ->asArray()
-                ->where(['city_id' => $city_id, 'section_id' => $section_id, 'product_list_status' => 1])
+            $products = Functions::selectProduct();
+            $products = $products
+                ->where([
+                    '`products_list`.`city_id`' => $city_id,
+                    '`products_list`.`section_id`' => $section_id,
+                    '`products_list`.`product_list_status`' => 1
+                ])
                 ->all();
             $products = Functions::prepareSerializedData($products);
             return Functions::prepareResponse($products);
@@ -59,25 +47,38 @@ class ProductsController extends Controller
         } elseif(empty($shop_id)) {
             return Functions::badRequestResponse('Отсутсвует ID магазина');
         } else {
-            $products = ProductsList::find()
-                ->select(
-                    '`product_list_id`,
-                    `products`.`product_id`,
-                    `section_id`,
-                    `category_id`,
-                    `subcategory_id`,
-                    `product_list_count`,
-                    `products`.`product_name`,
-                    `products`.`product_main_img`,
-                    `products`.`product_imgs`,
-                    `products`.`product_rating`,
-                    `products`.`product_price`,
-                    `products`.`product_parameters`,
-                    `products`.`product_description`'
-                )
-                ->innerJoin('products', '`products_list`.`product_id` = `products`.`product_id`')
-                ->asArray()
-                ->where(['city_id' => $city_id, 'shop_id' => $shop_id, 'product_list_status' => 1])
+            $products = Functions::selectProduct();
+            $products = $products
+                ->where(['`products_list`.`city_id`' => $city_id,
+                    '`products_list`.`shop_id`' => $shop_id,
+                    '`products_list`.`product_list_status`' => 1
+                ])
+                ->all();
+            $products = Functions::prepareSerializedData($products);
+            return Functions::prepareResponse($products);
+        }
+    }
+
+    public function actionShopSection()
+    {
+        $city_id = \Yii::$app->request->get('city_id');
+        $shop_id = \Yii::$app->request->get('shop_id');
+        $section_id = \Yii::$app->request->get('section_id');
+        if(empty($city_id)) {
+            return Functions::badRequestResponse();
+        } elseif(empty($shop_id)) {
+            return Functions::badRequestResponse('Отсутсвует ID магазина');
+        } elseif(empty($section_id)) {
+            return Functions::badRequestResponse('Отсутсвует ID Раздела');
+        } else {
+            $products = Functions::selectProduct();
+            $products = $products
+                ->where([
+                    '`products_list`.`city_id`' => $city_id,
+                    '`products_list`.`shop_id`' => $shop_id,
+                    '`products_list`.`section_id`' => $section_id,
+                    '`products_list`.`product_list_status`' => 1
+                ])
                 ->all();
             $products = Functions::prepareSerializedData($products);
             return Functions::prepareResponse($products);

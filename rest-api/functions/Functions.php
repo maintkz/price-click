@@ -9,6 +9,8 @@
 namespace api\functions;
 
 
+use backend\models\ProductsList;
+
 class Functions
 {
     public static function prepareResponse($data, $status_code = 'Не найдено')
@@ -44,5 +46,32 @@ class Functions
                 $array[$i]['product_parameters'] = unserialize($array[$i]['product_parameters']);
         }
         return $array;
+    }
+
+    public static function selectProduct() {
+        $products = ProductsList::find()
+            ->select(
+                '`product_list_id`,
+                    `products`.`product_id`,
+                    `shops`.`shop_id`,
+                    `shops`.`shop_name`,
+                    `subcategories`.`section_name`,
+                    `products_list`.`section_id`,
+                    `products_list`.`category_id`,
+                    `products_list`.`subcategory_id`,
+                    `product_list_count`,
+                    `products`.`product_name`,
+                    `products`.`product_main_img`,
+                    `products`.`product_imgs`,
+                    `products`.`product_rating`,
+                    `products`.`product_price`,
+                    `products`.`product_parameters`,
+                    `products`.`product_description`'
+            )
+            ->innerJoin('products', '`products_list`.`product_id` = `products`.`product_id`')
+            ->innerJoin('shops', '`products_list`.`shop_id` = `shops`.`shop_id`')
+            ->innerJoin('subcategories', '`products_list`.`category_id` = `subcategories`.`category_id`')
+            ->asArray();
+        return $products;
     }
 }
