@@ -2,16 +2,27 @@
 /**
  * Created by PhpStorm.
  * User: 1
- * Date: 15.01.2018
- * Time: 14:49
+ * Date: 17.01.2018
+ * Time: 10:38
  */
 
 namespace api\controllers;
 
 
-use yii\rest\ActiveController;
+use api\functions\Functions;
+use backend\models\Cities;
+use yii\web\Controller;
 
-class CitiesController extends ActiveController
+class CitiesController extends Controller
 {
-    public $modelClass = 'backend\models\Cities';
+    public $enableCsrfValidation = false;
+
+    public function actionIndex()
+    {
+        $cities = Cities::find()
+            ->asArray()
+            ->all();
+
+        return Functions::prepareResponse($cities);
+    }
 }

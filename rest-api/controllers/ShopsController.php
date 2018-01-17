@@ -2,59 +2,59 @@
 /**
  * Created by PhpStorm.
  * User: 1
- * Date: 15.01.2018
- * Time: 12:51
+ * Date: 17.01.2018
+ * Time: 11:54
  */
 
 namespace api\controllers;
 
-use backend\models\AuthAssignment;
+use api\functions\Functions;
+use backend\models\ProductsList;
 use backend\models\Shops;
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
-use yii\filters\auth\CompositeAuth;
-use yii\filters\auth\HttpBasicAuth;
-use yii\filters\auth\QueryParamAuth;
+use yii\web\Controller;
 
-class ShopsController extends ActiveController
+class ShopsController extends Controller
 {
-    public $modelClass = 'backend\models\Shops';
-    public function behaviors()
+    public $enableCsrfValidation = false;
+
+    public function actionIndex()
     {
-        $behaviors = parent::behaviors();
-        $behaviors['verbs'] = [
-            'class' => \yii\filters\VerbFilter::className(),
-            'actions' => [
-                'city' => ['get', 'head'],
-            ],
-        ];
-//        $behaviors['authenticator'] = [
-//            'class' => HttpBasicAuth::className(),
-//            'auth' => function($username, $password)
-//            {
-//                $out = null;
-//                $user = \common\models\User::findByUsername($username);
-//                if($user!=null)
-//                {
-//                    if($user->validatePassword($password)) $out = $user;
-//                }
-//                return $out;
-//            }
-//        ];
-        return $behaviors;
+        $city_id = \Yii::$app->request->get('city_id');
+        if(empty($city_id)) {
+            return Functions::badRequestResponse();
+        } else {
+            $shops = Shops::find()
+                ->where(['city_id' => $city_id])
+                ->asArray()
+                ->all();
+            return Functions::prepareResponse($shops);
+        }
     }
 
-    public function actionCity($city_id)
+    public function actionSection()
     {
-        $shops = \backend\models\Shops::find()
-            ->innerJoin('auth_assignment', '`auth_assignment`.`user_id` = `shops`.`user_id`')
-            ->where(['city_id' => $city_id])
-            ->asArray()
-            ->all();
-        if(count($shops) > 0) {
-            return $shops;
+        $city_id = \Yii::$app->request->get('city_id');
+        $section_id = \Yii::$app->request->get('section_id');
+        if(empty($city_id)) {
+            return Functions::badRequestResponse();
+        } elseif(empty($section_id)) {
+            return Functions::badRequestResponse('Отсутсвует ID раздела');
         } else {
-            throw new \yii\web\NotFoundHttpException;
+            $shops_ids = ProductsList::find()
+                ->select('user_id')
+                ->where(['city_id' => $city_id])
+                ->andWhere(['section_id' => $section_id])
+                ->groupBy('user_id')
+                ->all();
+            if(empty($shops_ids)) {
+                return Functions::badRequestResponse('Магазины данного раздела не найдены');
+            } else {
+                $shops = Shops::find()
+                    ->where(['user_id' => $shops_ids])
+                    ->asArray()
+                    ->all();
+                return Functions::prepareResponse($shops);
+            }
         }
     }
 }

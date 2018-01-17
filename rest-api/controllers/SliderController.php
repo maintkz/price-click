@@ -3,33 +3,31 @@
  * Created by PhpStorm.
  * User: 1
  * Date: 17.01.2018
- * Time: 12:00
+ * Time: 10:37
  */
 
 namespace api\controllers;
 
+
 use api\functions\Functions;
-use backend\models\Categories;
+use backend\models\SliderImages;
 use yii\web\Controller;
 
-class CategoriesController extends Controller
+class SliderController extends Controller
 {
     public $enableCsrfValidation = false;
 
-    /**
-     * @return mixed
-     */
     public function actionIndex()
     {
-        $section = \Yii::$app->request->get('section');
-        if(empty($section)) {
+        $city_id = \Yii::$app->request->get('city_id');
+        if(empty($city_id)) {
             return Functions::badRequestResponse();
         } else {
-            $categories = Categories::find()
-                ->where(['section_id' => $section])
+            $slider_images = SliderImages::find()
+                ->where(['city_id' => $city_id])
                 ->asArray()
                 ->all();
-            return Functions::prepareResponse($categories);
+            return Functions::prepareResponse($slider_images);
         }
     }
 }

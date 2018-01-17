@@ -20,6 +20,9 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'rules' => [
+
+            ],
         ],
         'user' => [
             'identityClass' => '\common\models\User',
