@@ -14,3 +14,4 @@
  ## Products
     все продукты города и раздела: products/section?city_id={1}&section_id={13}
     все продукты города и магазина: products/shop?city_id={1}&shop_id={2}
+    все продукты города, раздела и магазина: price-click/api/products/shop-section?city_id={1}&section_id={13}&shop_id={2}
