@@ -34,4 +34,15 @@ class Functions
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $response;
     }
+
+    public static function prepareSerializedData($array)
+    {
+        for($i=0; $i<count($array); $i++) {
+            if($array[$i]['product_imgs'] != NULL)
+                $array[$i]['product_imgs'] = implode(unserialize($array[$i]['product_imgs']));
+            if($array[$i]['product_parameters'] != NULL)
+                $array[$i]['product_parameters'] = unserialize($array[$i]['product_parameters']);
+        }
+        return $array;
+    }
 }
