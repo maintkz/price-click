@@ -83,7 +83,7 @@ class Functions
         for($i=0; $i<count($categories); $i++) {
             $structure[$categories[$i]['category_id']]['name'] = $categories[$i]['category_name'];
         }
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
         $subcategories = Subcategories::find()->where(['section_id' => $section_id])->asArray()->orderBy('category_id')->all();
 
         for($i=0; $i<count($subcategories); $i++) {
@@ -92,7 +92,7 @@ class Functions
         for($i=0; $i<count($subcategories); $i++) {
             $categories[$subcategories[$i]['category_name']][] = $subcategories[$i]['subcategory_name'];
         }
-
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $structure;
     }
 }

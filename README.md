@@ -14,4 +14,17 @@
  ## Products
     все продукты города и раздела: products/section?city_id={1}&section_id={13}
     все продукты города и магазина: products/shop?city_id={1}&shop_id={2}
-    все продукты города, раздела и магазина: price-click/api/products/shop-section?city_id={1}&section_id={13}&shop_id={2}
+    все продукты города, раздела и магазина: products/shop-section?city_id={1}&section_id={13}&shop_id={2}
+ ## Регистрация
+    url: price-click/api/sign-up
+    method: POST
+    format: JSON
+  ```json
+    {
+        "username": "Sultan",
+        "email": "osult@mail.ru",
+        "phone": "87079662796",
+        "password": "Maint112233",
+        "address": "Tole-bi Kunaeva"
+    }
+  ```

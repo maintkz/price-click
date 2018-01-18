@@ -185,4 +185,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public static function getEmailByUserId($user_id)
+    {
+        $user = static::findOne(['id' => $user_id]);
+        return $user->email;
+    }
 }

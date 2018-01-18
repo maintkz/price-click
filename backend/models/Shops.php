@@ -70,4 +70,10 @@ class Shops extends \yii\db\ActiveRecord
             'shop_top' => 'Shop Top',
         ];
     }
+
+    public static function getUserIdByShopId($shop_id)
+    {
+        $shop = static::findOne(['shop_id' => $shop_id]);
+        return $shop->user_id;
+    }
 }

@@ -70,4 +70,9 @@ class ProductsList extends \yii\db\ActiveRecord
         return $this->hasOne(Shops::className(), ['shop_id' => 'shop_id']);
     }
 
+    public static function getShopByProductId($product_id)
+    {
+        $product = static::findOne(['product_id' => $product_id]);
+        return $product->shop_id;
+    }
 }
