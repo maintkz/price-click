@@ -77,4 +77,9 @@ class Products extends \yii\db\ActiveRecord
         }
         return $productPar;
     }
+
+    public static function getProductById($product_id)
+    {
+        return static::findOne(['product_id' => $product_id]);
+    }
 }
