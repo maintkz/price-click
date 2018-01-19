@@ -16,7 +16,7 @@
     все продукты города и магазина: products/shop?city_id={1}&shop_id={2}
     все продукты города, раздела и магазина: products/shop-section?city_id={1}&section_id={13}&shop_id={2}
  ## Регистрация
-    url: price-click/api/sign-up
+    url: /api/sign-up
     method: POST
     format: JSON
   ```json

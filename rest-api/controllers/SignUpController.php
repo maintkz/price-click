@@ -31,7 +31,7 @@ class SignUpController extends Controller
             $model->email = Yii::$app->request->post('email');
             $model->phone = Yii::$app->request->post('phone');
             $model->password = Yii::$app->request->post('password');
-            $model->address = Yii::$app->request->post('address');;
+            $model->city_id = Yii::$app->request->post('city_id');;
             if($model->validate()) {
                 if($model->register()) {
                     return [
