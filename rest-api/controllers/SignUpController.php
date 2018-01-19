@@ -44,6 +44,12 @@ class SignUpController extends Controller
             } else {
                 return $model->getErrors();
             }
+        } else {
+            \Yii::$app->response->statusCode = 405;
+            return [
+                "status" => "405",
+                "message" => "Method Not Allowed, Allowed Methods: POST",
+            ];
         }
     }
 

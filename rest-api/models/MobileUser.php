@@ -12,6 +12,7 @@ use Yii;
  * @property string $email
  * @property string $phone
  * @property string $password
+ * @property string $city_id
  * @property string $address
  * @property integer $auth_key
  * @property string $date
@@ -57,6 +58,7 @@ class MobileUser extends \yii\db\ActiveRecord
             'phone' => 'Phone',
             'password' => 'Password',
             'address' => 'Address',
+            'city_id' => 'City ID',
             'auth_key' => 'auth_key',
             'date' => 'Date',
         ];

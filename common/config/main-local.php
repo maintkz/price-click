@@ -3,9 +3,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=srv-pleskdb19.ps.kz:3306;dbname=maintkz_price_click',
-            'username' => 'maint_price',
-            'password' => 'Heiu25@5',
+            'dsn' => 'mysql:host=localhost;dbname=price_click',
+            'username' => 'root',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'mailer' => [
