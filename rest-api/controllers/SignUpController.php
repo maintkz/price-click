@@ -9,6 +9,7 @@
 namespace api\controllers;
 
 
+use api\functions\Functions;
 use api\models\MobileUser;
 use backend\models\SignupForm;
 use Yii;
@@ -34,22 +35,26 @@ class SignUpController extends Controller
             $model->city_id = Yii::$app->request->post('city_id');;
             if($model->validate()) {
                 if($model->register()) {
+                    \Yii::$app->response->statusCode = 201;
                     return [
-                        "status" => "Зарегистрирован",
+                        "status" => "201",
+                        "message" => "Успешно зарегистрирован",
                         "auth_key" => $model->auth_key
                     ];
                 } else {
-                    return $model->getErrors();
+                    $response['status'] = "400";
+                    $response['message'] = "Register failed";
+                    $response['errors'] = $model->getErrors();
+                    return $response;
                 }
             } else {
-                return $model->getErrors();
+                $response['status'] = "400";
+                $response['message'] = "Validation failed";
+                $response['errors'] = $model->getErrors();
+                return $response;
             }
         } else {
-            \Yii::$app->response->statusCode = 405;
-            return [
-                "status" => "405",
-                "message" => "Method Not Allowed, Allowed Methods: POST",
-            ];
+            return Functions::methodNotAllowedResponse();
         }
     }
 

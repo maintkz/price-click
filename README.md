@@ -16,7 +16,7 @@
     все продукты города и магазина: products/shop?city_id={1}&shop_id={2}
     все продукты города, раздела и магазина: products/shop-section?city_id={1}&section_id={13}&shop_id={2}
  ## Регистрация
-    url: /api/sign-up
+    url: /sign-up
     method: POST
     format: JSON
   ```json
@@ -28,3 +28,56 @@
         "address": "Tole-bi Kunaeva"
     }
   ```
+    response:
+   ```json
+    {
+        "status": "Зарегистрирован",
+        "auth_key": "ciylRarG6Z3XI_gM_CwqXkah6ZIC2t0m"
+    }
+  ```
+ ## Логин
+    url: /login
+    method: POST
+    format: JSON
+  ```json
+    {
+    	"email": "osult@mail.rul",
+    	"password": "Maint112233"
+    }
+  ```
+ ## Добавление товара
+     url: /order
+     method: POST
+     format: JSON
+   ```json
+     {
+     	"auth_key": "HeQz4WUmy-TXiMWm3-r84uoGu1-Sovmk",
+     	"address": "Kunaeva Gogolya",
+     	"description": "Privezite pojaluista mejdu 14:00 i 16:00",
+     	"products": [
+     		{
+     			"product_id": "32",
+     			"product_price": "1500",
+     			"product_count": "3",
+     			"product_parameters": {}
+     		},
+     		{
+     			"product_id": "32",
+     			"product_price": "1500",
+     			"product_count": "3",
+     			"product_parameters": {
+     				"size": "27",
+     				"color": "#ccffcc"
+     			}
+     		},
+     		{
+     			"product_id": "32",
+     			"product_price": "1000",
+     			"product_count": "2",
+     			"product_parameters": {
+     				"size": "30"
+     			}
+     		}
+     	]
+     }
+   ``` 

@@ -48,6 +48,15 @@ class Functions
         return $response;
     }
 
+    public static function methodNotAllowedResponse()
+    {
+        $response['status'] = 405;
+        $response['message'] = "Method Not Allowed, Allowed Methods: POST";
+        \Yii::$app->response->statusCode = 405;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+    }
+
     public static function prepareSerializedData($array)
     {
         for($i=0; $i<count($array); $i++) {
