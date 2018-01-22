@@ -57,6 +57,15 @@ class Functions
         return $response;
     }
 
+    public static function authKeyNotFound()
+    {
+        $response['status'] = 400;
+        $response['message'] = "Auth Key Not Found";
+        \Yii::$app->response->statusCode = 400;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+    }
+
     public static function prepareSerializedData($array)
     {
         for($i=0; $i<count($array); $i++) {

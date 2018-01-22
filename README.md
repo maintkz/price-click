@@ -80,4 +80,17 @@
      		}
      	]
      }
-   ``` 
+   ```
+ ## Редактирование личных данных пользователя
+    url: /user-info/change
+    method: POST
+    format: JSON
+   ```json
+     {
+     	"auth_key": "HeQz4WUmy-TXiMWm3-r84uoGu1-Sovmk",
+     	"username": "Omashev Sultan",
+     	"phone": "87079613400",
+     	"password": "Maint112233",
+     	"city_id": 1
+     }
+   ```

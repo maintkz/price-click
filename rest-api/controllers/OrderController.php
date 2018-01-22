@@ -31,7 +31,6 @@ class OrderController extends Controller
      */
     public function actionIndex()
     {
-        $order = new Orders;
         $mUser = new MobileUser;
         $order_group = new OrderGroup;
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -89,7 +88,7 @@ class OrderController extends Controller
                     return $order_group->getErrors();
                 }
             } else {
-                return "Identity not found";
+                return Functions::authKeyNotFound();
             }
         } else {
             return Functions::methodNotAllowedResponse();
