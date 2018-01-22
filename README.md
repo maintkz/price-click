@@ -45,7 +45,7 @@
     	"password": "Maint112233"
     }
   ```
- ## Добавление товара
+ ## Оформление заказа
      url: /order
      method: POST
      format: JSON

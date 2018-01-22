@@ -28,16 +28,24 @@ class LoginController extends Controller
             $mUser = $model->getIdentityByEmail($model->email);
             if($mUser->validatePassword($model->password)) {
                 if ($mUser->generateAuthKey()) {
-                    return [
-                        "status" => "successfully logged",
-                        "auth_key" => $mUser->auth_key
-                    ];
+                    \Yii::$app->response->statusCode = 200;
+                    unset($mUser->password);
+                    return $mUser;
                 } else {
                     return "error occurred while generating and saving auth key";
                 }
             } else {
-                return "not valid password";
+                \Yii::$app->response->statusCode = 400;
+                $response['status'] = "400";
+                $response['message'] = "not valid password";
+                return $response;
             }
+        } else {
+            \Yii::$app->response->statusCode = 405;
+            return [
+                "status" => "405",
+                "message" => "Method not Allowed"
+            ];
         }
     }
 }

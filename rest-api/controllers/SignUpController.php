@@ -42,12 +42,14 @@ class SignUpController extends Controller
                         "auth_key" => $model->auth_key
                     ];
                 } else {
+                    \Yii::$app->response->statusCode = 400;
                     $response['status'] = "400";
                     $response['message'] = "Register failed";
                     $response['errors'] = $model->getErrors();
                     return $response;
                 }
             } else {
+                \Yii::$app->response->statusCode = 400;
                 $response['status'] = "400";
                 $response['message'] = "Validation failed";
                 $response['errors'] = $model->getErrors();
