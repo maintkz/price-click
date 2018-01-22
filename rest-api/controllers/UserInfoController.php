@@ -43,8 +43,10 @@ class UserInfoController extends Controller
                 if ($mUser->validate()) {
                     if ($mUser->save()) {
                         \Yii::$app->response->statusCode = 200;
-                        unset($mUser->password);
-                        return $mUser;
+                        return [
+                            "status" => "200",
+                            "message" => "Successfully edited"
+                        ];
                     } else {
                         \Yii::$app->response->statusCode = 400;
                         $response['status'] = "400";

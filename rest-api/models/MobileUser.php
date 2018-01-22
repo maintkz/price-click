@@ -84,6 +84,9 @@ class MobileUser extends \yii\db\ActiveRecord
 
     public function validatePassword($password)
     {
+//        if () {
+//
+//        }
         return Yii::$app->security->validatePassword($password, $this->password);
     }
 

@@ -27,21 +27,28 @@ class LoginController extends Controller
             $model->email = Yii::$app->request->post('email');
             $model->password = Yii::$app->request->post('password');
 
-            $mUser = $model->getIdentityByEmail($model->email);
-            if($mUser->validatePassword($model->password)) {
-                if ($mUser->generateAuthKey()) {
-                    \Yii::$app->response->statusCode = 200;
-                    unset($mUser->password);
-                    $response = ArrayHelper::toArray($mUser);
-                    $response[key(Cities::getCityNameById($mUser->city_id))] = reset(Cities::getCityNameById($mUser->city_id));
-                    return $response;
+
+            if ($mUser = $model->getIdentityByEmail($model->email)) {
+                if($mUser->validatePassword($model->password)) {
+                    if ($mUser->generateAuthKey()) {
+                        \Yii::$app->response->statusCode = 200;
+                        unset($mUser->password);
+                        $response = ArrayHelper::toArray($mUser);
+                        $response[key(Cities::getCityNameById($mUser->city_id))] = reset(Cities::getCityNameById($mUser->city_id));
+                        return $response;
+                    } else {
+                        return "error occurred while generating and saving auth key";
+                    }
                 } else {
-                    return "error occurred while generating and saving auth key";
+                    \Yii::$app->response->statusCode = 400;
+                    $response['status'] = "400";
+                    $response['message'] = "Incorrect email or password";
+                    return $response;
                 }
             } else {
                 \Yii::$app->response->statusCode = 400;
                 $response['status'] = "400";
-                $response['message'] = "not valid password";
+                $response['message'] = "Incorrect email or password";
                 return $response;
             }
         } else {

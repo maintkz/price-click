@@ -82,4 +82,16 @@ class Products extends \yii\db\ActiveRecord
     {
         return static::findOne(['product_id' => $product_id]);
     }
+
+    public static function setProductRating($product_id, $rating_value, $count)
+    {
+        $product = static::findOne(['product_id' => $product_id]);
+        $new_rating = ($product->product_rating * ($count -1) + $rating_value) / $count;
+        $product->product_rating = $new_rating;
+        if ($product->save()) {
+            return $product;
+        } else {
+            return NULL;
+        }
+    }
 }
