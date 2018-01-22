@@ -32,7 +32,7 @@ class ProductRatingController extends Controller
 
             if ($mUser = $mUser->getIdentityByAuthKey($auth_key)) {
                 if(ProductRating::isRatedBefore($mUser->id, $product_id)) {
-                    $product_rating->mobile_user_id = $mobile_user_id;
+                    $product_rating->mobile_user_id = $mUser->id;
                     $product_rating->product_id = $product_id;
                     $product_rating->value = $value;
                     if($product_rating->validate()) {

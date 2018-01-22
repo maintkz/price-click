@@ -10,7 +10,9 @@ namespace api\controllers;
 
 
 use api\models\MobileUser;
+use backend\models\Cities;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 class LoginController extends Controller
@@ -30,7 +32,9 @@ class LoginController extends Controller
                 if ($mUser->generateAuthKey()) {
                     \Yii::$app->response->statusCode = 200;
                     unset($mUser->password);
-                    return $mUser;
+                    $response = ArrayHelper::toArray($mUser);
+                    $response[key(Cities::getCityNameById($mUser->city_id))] = reset(Cities::getCityNameById($mUser->city_id));
+                    return $response;
                 } else {
                     return "error occurred while generating and saving auth key";
                 }
