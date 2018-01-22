@@ -32,10 +32,24 @@ class UserInfoController extends Controller
                 if (!empty(Yii::$app->request->post('phone'))) {
                     $mUser->phone = Yii::$app->request->post('phone');
                 }
-                if (!empty(Yii::$app->request->post('password'))) {
-                    $mUser->password = Yii::$app->request->post('password');
-                    $mUser->password = Yii::$app->getSecurity()->generatePasswordHash($mUser->password);
+                if (!empty(Yii::$app->request->post('old_password')) && !empty(Yii::$app->request->post('new_password'))) {
+                    if ($mUser->validatePassword(Yii::$app->request->post('old_password'))) {
+                        $mUser->password = Yii::$app->request->post('new_password');
+                        $mUser->password = Yii::$app->getSecurity()->generatePasswordHash($mUser->password);
+                    } else {
+                        Yii::$app->response->statusCode = 400;
+                        $response['status'] = "400";
+                        $response['message'] = "Incorrect password";
+                        return $response;
+                    }
                 }
+                if(empty(Yii::$app->request->post('old_password')) && !empty(Yii::$app->request->post('new_password')) OR !empty(Yii::$app->request->post('old_password')) && empty(Yii::$app->request->post('new_password'))) {
+                    \Yii::$app->response->statusCode = 400;
+                    $response['status'] = "400";
+                    $response['message'] = "New password or Old password not sent";
+                    return $response;
+                }
+
                 if (!empty(Yii::$app->request->post('city_id'))) {
                     $mUser->city_id = Yii::$app->request->post('city_id');
                 }

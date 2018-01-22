@@ -90,7 +90,8 @@
      	"auth_key": "HeQz4WUmy-TXiMWm3-r84uoGu1-Sovmk",
      	"username": "Omashev Sultan",
      	"phone": "87079613400",
-     	"password": "Maint112233",
+     	"old_password": "Maint112233",
+     	"new_password": "Maint11",
      	"city_id": 1
      }
    ```

@@ -27,11 +27,10 @@ class LoginController extends Controller
             $model->email = Yii::$app->request->post('email');
             $model->password = Yii::$app->request->post('password');
 
-
             if ($mUser = $model->getIdentityByEmail($model->email)) {
                 if($mUser->validatePassword($model->password)) {
                     if ($mUser->generateAuthKey()) {
-                        \Yii::$app->response->statusCode = 200;
+                        Yii::$app->response->statusCode = 200;
                         unset($mUser->password);
                         $response = ArrayHelper::toArray($mUser);
                         $response[key(Cities::getCityNameById($mUser->city_id))] = reset(Cities::getCityNameById($mUser->city_id));
@@ -40,19 +39,19 @@ class LoginController extends Controller
                         return "error occurred while generating and saving auth key";
                     }
                 } else {
-                    \Yii::$app->response->statusCode = 400;
+                    Yii::$app->response->statusCode = 400;
                     $response['status'] = "400";
                     $response['message'] = "Incorrect email or password";
                     return $response;
                 }
             } else {
-                \Yii::$app->response->statusCode = 400;
+                Yii::$app->response->statusCode = 400;
                 $response['status'] = "400";
                 $response['message'] = "Incorrect email or password";
                 return $response;
             }
         } else {
-            \Yii::$app->response->statusCode = 405;
+            Yii::$app->response->statusCode = 405;
             return [
                 "status" => "405",
                 "message" => "Method not Allowed"
