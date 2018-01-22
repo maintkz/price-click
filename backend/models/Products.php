@@ -35,7 +35,8 @@ class Products extends \yii\db\ActiveRecord
         return [
             [['product_name', 'product_price'], 'required'],
             [['product_imgs', 'product_imgs_min', 'product_description'], 'string'],
-            [['product_rating', 'product_price'], 'integer'],
+            [['product_price'], 'integer'],
+            [['product_rating'], 'number'],
             [['product_name', 'product_main_img'], 'string', 'max' => 200],
             [['product_parameters'], 'string', 'max' => 2000],
             [['images'], 'file', 'maxFiles' => 10, 'extensions' => 'png, jpg'],
@@ -85,11 +86,15 @@ class Products extends \yii\db\ActiveRecord
 
     public static function setProductRating($product_id, $rating_value, $count)
     {
-        $product = static::findOne(['product_id' => $product_id]);
-        $new_rating = ($product->product_rating * ($count -1) + $rating_value) / $count;
-        $product->product_rating = $new_rating;
-        if ($product->save()) {
-            return $product;
+        if ($product = static::findOne(['product_id' => $product_id])) {
+            $new_rating = ($product->product_rating * ($count -1) + $rating_value) / $count;
+            $new_rating = round($new_rating, 1);
+            $product->product_rating = $new_rating;
+            if ($product->save()) {
+                return $product;
+            } else {
+                return NULL;
+            }
         } else {
             return NULL;
         }

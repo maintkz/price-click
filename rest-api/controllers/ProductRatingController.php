@@ -32,17 +32,17 @@ class ProductRatingController extends Controller
         if(Yii::$app->request->isPost) {
             $auth_key = Yii::$app->request->post('auth_key');
             $product_id = Yii::$app->request->post('product_id');
-            $value = Yii::$app->request->post('value');
+            $rating_value = Yii::$app->request->post('rating_value');
 
             if ($mUser = $mUser->getIdentityByAuthKey($auth_key)) {
-                if(ProductRating::isRatedBefore($mUser->id, $product_id)) {
+                if(!ProductRating::isRatedBefore($mUser->id, $product_id)) {
                     $product_rating->mobile_user_id = $mUser->id;
                     $product_rating->product_id = $product_id;
-                    $product_rating->value = $value;
+                    $product_rating->value = $rating_value;
                     if($product_rating->validate()) {
                         if($product_rating->save()) {
                             $rows_count = ProductRating::find()->where(['product_id' => $product_id])->count();
-                            if($product = Products::setProductRating($product_id, $value, $rows_count)) {
+                            if($product = Products::setProductRating($product_rating->product_id, $product_rating->value, $rows_count)) {
                                 \Yii::$app->response->statusCode = 200;
                                 return [
                                     "status" => "200",
@@ -52,7 +52,6 @@ class ProductRatingController extends Controller
                                 \Yii::$app->response->statusCode = 400;
                                 $response["status"] = "400";
                                 $response["message"] = "Error encountered while trying to save rating";
-                                $response["errors"] = $product->getErrors();
                                 return $response;
                             }
                         } else {

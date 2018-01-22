@@ -30,7 +30,8 @@ class ProductRating extends \yii\db\ActiveRecord
     {
         return [
             [['mobile_user_id', 'product_id', 'value'], 'required'],
-            [['mobile_user_id', 'product_id', 'value'], 'integer'],
+            [['mobile_user_id', 'product_id'], 'integer'],
+            [['value'], 'integer', 'integerOnly' => true, 'min' => 1, 'max' => 5],
             [['date'], 'safe'],
         ];
     }
@@ -51,7 +52,11 @@ class ProductRating extends \yii\db\ActiveRecord
 
     public static function isRatedBefore($mobile_user_id, $product_id)
     {
-        return static::findOne(['mobile_user_id' => $mobile_user_id, 'product_id' => $product_id]);
+        if (static::findOne(['mobile_user_id' => $mobile_user_id, 'product_id' => $product_id])) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 
 }

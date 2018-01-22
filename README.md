@@ -95,3 +95,16 @@
      	"city_id": 1
      }
    ```
+ ## Оценка товара
+     url: /product-rating
+     method: POST
+     format: JSON
+     ставить оценку можно только один раз на один товар
+     rating_value = 1-5
+   ```json
+      {
+      	"auth_key": "Dz4Y48D6eaVpOZQwAUjtna2fT1Jr7DlY",
+      	"product_id": "42",
+      	"rating_value": "5"
+      }
+   ```
