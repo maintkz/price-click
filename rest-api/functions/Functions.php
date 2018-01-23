@@ -74,7 +74,7 @@ class Functions
             if($array[$i]['product_parameters'] != NULL)
                 $array[$i]['product_parameters'] = unserialize($array[$i]['product_parameters']);
             if($array[$i]['product_parameter'] != NULL)
-                $array[$i]['product_parameter'] = unserialize($array[$i]['product_parameters']);
+                $array[$i]['product_parameter'] = unserialize($array[$i]['product_parameter']);
         }
         return $array;
     }
