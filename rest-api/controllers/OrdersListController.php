@@ -39,13 +39,17 @@ class OrdersListController extends Controller
                             `orders`.`product_price`,
                             `shops`.`shop_name`,
                             `products`.`product_id`,
+                            `products`.`product_main_img`,
                             `shops`.`shop_id`'
                         )
                         ->innerJoin('products', '`orders`.`product_id` = `products`.`product_id`')
                         ->innerJoin('order_group', '`orders`.`order_group_id` = `order_group`.`id`')
                         ->innerJoin('shops', '`order_group`.`shop_id` = `shops`.`shop_id`')
                         ->asArray()
-                        ->where(['mobile_user_id' => $mUser->id])
+                        ->where([
+                            'mobile_user_id' => $mUser->id,
+                            'order_group_id' => $order_group_id
+                        ])
                         ->all();
                     if (count($orderGroup) > 0) {
                         return $orderGroup;

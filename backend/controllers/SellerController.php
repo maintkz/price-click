@@ -105,6 +105,7 @@ class SellerController extends Controller
         if (Yii::$app->request->isAjax) {
             $productsListModel->load(Yii::$app->request->post());
             $productsListModel->user_id = \Yii::$app->user->identity->id;
+//            $productsList
 
             $productsModel->load(Yii::$app->request->post());
             $productsModel->images = UploadedFile::getInstances($productsModel, 'images');
@@ -121,7 +122,7 @@ class SellerController extends Controller
                 foreach ($productsModel->images as $image) {
                     $name = Yii::$app->helperComponent->transliterate($productsModel->product_name);
                     $name = substr($name, 0, 20);
-                    $path = '/web/uploads/products/' . $name . '.' . rand(1, 99999) . '.' . time();
+                    $path = 'backend/web/uploads/products/' . $name . '.' . rand(1, 99999) . '.' . time();
                     $savePath = Yii::getAlias('@backend') . $path;
                     $extension = '.' . $image->extension;
                     $imagePaths[] = $path . $extension;
