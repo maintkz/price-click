@@ -60,4 +60,17 @@ class Orders extends \yii\db\ActiveRecord
             'updated_date' => 'Updated Date',
         ];
     }
+
+    public static function getOrderGroupIdByOrderId($order_id)
+    {
+        $order_group_id = static::find()
+            ->select('order_group_id')
+            ->where(['id' => $order_id])
+            ->one();
+        if ($order_group_id) {
+            return $order_group_id;
+        } else {
+            return NULL;
+        }
+    }
 }

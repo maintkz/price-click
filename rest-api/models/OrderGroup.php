@@ -60,4 +60,13 @@ class OrderGroup extends \yii\db\ActiveRecord
             'created_date' => 'Created Date',
         ];
     }
+
+    public static function isSelfOrder($mobile_user_id, $order_group_id)
+    {
+        if (static::findOne(['mobile_user_id' => $mobile_user_id, 'id' => $order_group_id])) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 }

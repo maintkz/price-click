@@ -133,11 +133,21 @@
   ```
  ## Список заказанных товаров
         url: /orders-list
-        mrthod: POST
+        method: POST
         format: JSON
    ```json
         {
             "auth_key": "uBivVbSO9YiqEz83T6xBTpzAdiIIPiTN",
             "order_group_id": "14"
+        }
+   ```
+ ## Просмотр купленного продукта
+        url: /ordered-product
+        method: POST
+        format: JSON
+   ```json
+        {
+        	"auth_key": "uBivVbSO9YiqEz83T6xBTpzAdiIIPiTN",
+        	"order_id": 66
         }
    ```
