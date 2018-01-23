@@ -56,7 +56,7 @@ class OrderedProductController extends Controller
                             ->all();
                         if (count($order) > 0) {
                             $order = Functions::prepareSerializedData($order);
-                            return $order;
+                            return $order[0];
                         } else {
                             $response['status'] = '404';
                             $response['message'] = 'There is no orders for this user.';
