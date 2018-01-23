@@ -35,11 +35,9 @@ class OrdersListController extends Controller
                     $model = new Orders;
                     $orderGroup = $model->find()
                         ->select(
-                            '*'
+                            ''
                         )
                         ->asArray()
-                        ->innerJoin('products', '`products_list`.`product_id` = `products`.`product_id`')
-                        ->innerJoin('shops', '`products_list`.`shop_id` = `shops`.`shop_id`')
                         ->where(['mobile_user_id' => $mUser->id])
                         ->all();
                     if (count($orderGroup) > 0) {

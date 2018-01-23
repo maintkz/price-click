@@ -121,3 +121,13 @@
        	"rating_value": "5"
        }
    ```
+ # Оценка товара
+       url: /order-group-list
+       method: POST
+       format: JSON
+  ```json
+        {
+        	"auth_key": "uBivVbSO9YiqEz83T6xBTpzAdiIIPiTN"
+        }
+
+  ```
