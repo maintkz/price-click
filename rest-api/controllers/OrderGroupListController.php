@@ -37,7 +37,7 @@ class OrderGroupListController extends Controller
                     ->where(['mobile_user_id' => $mUser->id])
                     ->all();
                 if (count($orderGroup) > 0) {
-                    return $orderGroup;
+                    return $orderGroup[0];
                 } else {
                     $response['status'] = '404';
                     $response['message'] = 'There is no orders for this user.';
