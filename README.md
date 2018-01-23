@@ -108,7 +108,7 @@
       	"rating_value": "5"
       }
    ```
- # Оценка товара
+ ## Оценка товара
       url: /shop-rating
       method: POST
       format: JSON
@@ -121,7 +121,7 @@
        	"rating_value": "5"
        }
    ```
- # Оценка товара
+ ## Список заказов
        url: /order-group-list
        method: POST
        format: JSON
@@ -131,3 +131,13 @@
         }
 
   ```
+ ## Список заказанных товаров
+        url: /orders-list
+        mrthod: POST
+        format: JSON
+   ```json
+        {
+            "auth_key": "uBivVbSO9YiqEz83T6xBTpzAdiIIPiTN",
+            "order_group_id": "14"
+        }
+   ```

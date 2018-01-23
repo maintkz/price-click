@@ -35,8 +35,15 @@ class OrdersListController extends Controller
                     $model = new Orders;
                     $orderGroup = $model->find()
                         ->select(
-                            ''
+                            '`products`.`product_name`,
+                            `orders`.`product_price`,
+                            `shops`.`shop_name`,
+                            `products`.`product_id`,
+                            `shops`.`shop_id`'
                         )
+                        ->innerJoin('products', '`orders`.`product_id` = `products`.`product_id`')
+                        ->innerJoin('order_group', '`orders`.`order_group_id` = `order_group`.`id`')
+                        ->innerJoin('shops', '`order_group`.`shop_id` = `shops`.`shop_id`')
                         ->asArray()
                         ->where(['mobile_user_id' => $mUser->id])
                         ->all();
