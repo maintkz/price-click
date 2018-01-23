@@ -122,11 +122,11 @@ class SellerController extends Controller
                 foreach ($productsModel->images as $image) {
                     $name = Yii::$app->helperComponent->transliterate($productsModel->product_name);
                     $name = substr($name, 0, 20);
-                    $path = 'backend/web/uploads/products/' . $name . '.' . rand(1, 99999) . '.' . time();
+                    $path = '/web/uploads/products/' . $name . '.' . rand(1, 99999) . '.' . time();
                     $savePath = Yii::getAlias('@backend') . $path;
                     $extension = '.' . $image->extension;
-                    $imagePaths[] = $path . $extension;
-                    $imageMinPaths[] = $path . '.min' . $extension;
+                    $imagePaths[] = 'backend' . $path . $extension;
+                    $imageMinPaths[] = 'backend' . $path . '.min' . $extension;
 
                     Image::thumbnail($image->tempName, 300, 200, ManipulatorInterface::THUMBNAIL_OUTBOUND)
                         ->save($savePath . '.min' . $extension, ['quality' => 80]);

@@ -55,9 +55,8 @@ class OrderedProductController extends Controller
                             ->asArray()
                             ->all();
                         if (count($order) > 0) {
-                            $order[0]['product_imgs'] = unserialize($order[0]['product_imgs']);
-                            $order[0]['product_parameter'] = unserialize($order[0]['product_parameter']);
-                            return $order[0];
+                            $order = Functions::prepareSerializedData($order);
+                            return $order;
                         } else {
                             $response['status'] = '404';
                             $response['message'] = 'There is no orders for this user.';
