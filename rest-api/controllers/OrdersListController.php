@@ -36,6 +36,7 @@ class OrdersListController extends Controller
                     $orderGroup = $model->find()
                         ->select(
                             '`products`.`product_name`,
+                            `orders`.`id`,
                             `orders`.`product_price`,
                             `shops`.`shop_name`,
                             `products`.`product_id`,

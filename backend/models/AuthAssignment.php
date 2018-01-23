@@ -12,6 +12,7 @@ use Yii;
  * @property string $user_id
  * @property string $status
  * @property integer $created_at
+ * @property integer $city_id
  *
  * @property AuthItem $itemName
  */
@@ -89,5 +90,13 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function getShops()
     {
         return $this->hasOne(Shops::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     *
+     */
+    public static function getCityIdByUserId($user_id)
+    {
+        return static::find()->select('city_id')->where(['user_id' => $user_id])->one();
     }
 }

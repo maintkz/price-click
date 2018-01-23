@@ -13,6 +13,8 @@ use Yii;
  * @property string $section_id
  * @property string $category_id
  * @property string $subcategory_id
+ * @property integer $user_id
+ * @property integer $city_id
  * @property string $product_list_count
  * @property integer $product_list_status
  */
@@ -32,7 +34,7 @@ class ProductsList extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'product_id', 'section_id', 'category_id', 'subcategory_id', 'product_list_count', 'product_list_status'], 'integer'],
+            [['user_id', 'product_id', 'section_id', 'category_id', 'subcategory_id', 'product_list_count', 'product_list_status', 'user_id', 'city_id'], 'integer'],
             [['product_list_count'], 'required'],
         ];
     }

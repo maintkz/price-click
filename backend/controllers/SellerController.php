@@ -8,13 +8,12 @@
 
 namespace backend\controllers;
 
+use backend\models\AuthAssignment;
 use backend\models\ProductsList;
 use Imagine\Image\ManipulatorInterface;
 use yii\imagine\Image;
 use Yii;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 use backend\models\Products;
 use yii\web\UploadedFile;
@@ -105,7 +104,8 @@ class SellerController extends Controller
         if (Yii::$app->request->isAjax) {
             $productsListModel->load(Yii::$app->request->post());
             $productsListModel->user_id = \Yii::$app->user->identity->id;
-//            $productsList
+            $productsListModel->product_list_status = 0;
+            $productsListModel->city_id = AuthAssignment::getCityIdByUserId($productsListModel->user_id);
 
             $productsModel->load(Yii::$app->request->post());
             $productsModel->images = UploadedFile::getInstances($productsModel, 'images');
