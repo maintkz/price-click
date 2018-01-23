@@ -73,6 +73,8 @@ class Functions
                 $array[$i]['product_imgs'] = implode(unserialize($array[$i]['product_imgs']));
             if($array[$i]['product_parameters'] != NULL)
                 $array[$i]['product_parameters'] = unserialize($array[$i]['product_parameters']);
+            if($array[$i]['product_parameter'] != NULL)
+                $array[$i]['product_parameter'] = unserialize($array[$i]['product_parameters']);
         }
         return $array;
     }
