@@ -29,8 +29,9 @@ class ShopRating extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['mobile_user_id', 'shop_id', 'value', 'date'], 'required'],
+            [['mobile_user_id', 'shop_id', 'value'], 'required'],
             [['mobile_user_id', 'shop_id', 'value'], 'integer'],
+            [['value'], 'integer', 'integerOnly' => true, 'min' => 1, 'max' => 5],
             [['date'], 'safe'],
         ];
     }
@@ -47,5 +48,14 @@ class ShopRating extends \yii\db\ActiveRecord
             'value' => 'Value',
             'date' => 'Date',
         ];
+    }
+
+    public static function isRatedBefore($mobile_user_id, $shop_id)
+    {
+        if (static::findOne(['mobile_user_id' => $mobile_user_id, 'shop_id' => $shop_id])) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use api\models\ShopRating;
 use Yii;
 
 /**
@@ -40,7 +41,8 @@ class Shops extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'shop_name', 'city_id', 'shop_fast_delivery', 'shop_top'], 'required'],
-            [['user_id', 'shop_min_price', 'shop_delivery_price', 'shop_rating', 'city_id', 'shop_fast_delivery', 'shop_top'], 'integer'],
+            [['user_id', 'shop_min_price', 'shop_delivery_price', 'city_id', 'shop_fast_delivery', 'shop_top'], 'integer'],
+            [['shop_rating'], 'number'],
             [['shop_open_time', 'shop_close_time'], 'safe'],
             [['shop_pay_options', 'shop_contacts', 'shop_description'], 'string'],
             [['shop_name', 'shop_img'], 'string', 'max' => 200],
@@ -75,5 +77,22 @@ class Shops extends \yii\db\ActiveRecord
     {
         $shop = static::findOne(['shop_id' => $shop_id]);
         return $shop->user_id;
+    }
+
+    public static function setShopRating($shop_id, $rating_value)
+    {
+        if ($shop = static::findOne(['shop_id' => $shop_id])) {
+            $count = ShopRating::find()->where(['shop_id' => $shop_id])->count();
+            $new_rating = ($shop->shop_rating * ($count -1) + $rating_value) / $count;
+            $new_rating = round($new_rating, 1);
+            $shop->shop_rating = $new_rating;
+            if ($shop->save()) {
+                return $shop;
+            } else {
+                return NULL;
+            }
+        } else {
+            return NULL;
+        }
     }
 }

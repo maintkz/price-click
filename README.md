@@ -108,3 +108,16 @@
       	"rating_value": "5"
       }
    ```
+ # Оценка товара
+      url: /shop-rating
+      method: POST
+      format: JSON
+      ставить оценку можно только один раз одному магазину
+      rating_value = 1-5
+   ```json
+       {
+       	"auth_key": "Dz4Y48D6eaVpOZQwAUjtna2fT1Jr7DlY",
+       	"shop_id": "3",
+       	"rating_value": "5"
+       }
+   ```
