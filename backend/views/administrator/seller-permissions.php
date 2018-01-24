@@ -6,7 +6,6 @@
  * Time: 17:15
  */
 
-print_r($dealers);
 ?>
 
 <div class="panel panel-flat">
