@@ -32,6 +32,7 @@ $this->registerJsFile(
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-indigo">
     <div class="navbar-header">
+        <a class="navbar-brand" href="index.html"></a>
         <ul class="nav navbar-nav visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
             <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
@@ -180,6 +181,7 @@ $this->registerJsFile(
                                 <ul>
                                     <li><a href="<?= Url::to(['seller/products-list']); ?>">Список товаров</a></li>
                                     <li><a href="<?= Url::to(['seller/add-product']); ?>">Добавить новый товар</a></li>
+                                    <li><a href="<?= Url::to(['seller/add-by-excel']); ?>">Добавить товары через Excel</a></li>
                                 </ul>
                             </li>
                             <!-- /seller -->
@@ -210,10 +212,11 @@ $this->registerJsFile(
         <!-- Main content -->
         <div class="content-wrapper">
             <!-- Page header -->
-            <div class="page-header page-header-default">
+            <div class="page-header page-header-default" style="background-color: #313f8c;">
                 <div class="page-header-content">
                     <div class="page-title">
-                        <h4><?= $this->title; ?></h4>
+                        <?= Html::img('@backweb/images/logo.png', ['class' => '', 'style' => 'height: 70px;']); ?>
+                        <h4 style="color: #fff; margin-top: 25px;"><?= $this->title; ?></h4>
                     </div>
 
                     <div class="heading-elements">

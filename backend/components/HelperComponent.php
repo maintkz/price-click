@@ -241,4 +241,9 @@ class HelperComponent extends Component
             return $e->getMessage();
         }
     }
+
+    public function getRole()
+    {
+        return array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id))[0];
+    }
 }

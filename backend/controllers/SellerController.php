@@ -10,12 +10,15 @@ namespace backend\controllers;
 
 use backend\models\AuthAssignment;
 use backend\models\ProductsList;
+use backend\models\Shops;
 use Imagine\Image\ManipulatorInterface;
+use moonland\phpexcel\Excel;
 use yii\imagine\Image;
 use Yii;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use backend\models\Products;
+use yii\web\HttpException;
 use yii\web\UploadedFile;
 
 class SellerController extends Controller
@@ -150,6 +153,71 @@ class SellerController extends Controller
             }
         } else {
             return "nothing received or not ajax";
+        }
+    }
+
+    public function actionAddByExcel()
+    {
+        if (Yii::$app->helperComponent->getRole() == 'seller') {
+            if (Yii::$app->request->isPost) {
+                $xlsx = UploadedFile::getInstanceByName('excel');
+                $data = Excel::import($xlsx->tempName);
+
+                $user_id = Yii::$app->user->identity->id;
+
+                foreach($data as $key => $row) {
+                    $products[$key] = new Products;
+                    $productsList[$key] = new ProductsList;
+
+                    $products[$key]->product_name = $row['наименование'];
+                    $products[$key]->product_main_img = NULL;
+                    $products[$key]->product_imgs = NULL;
+                    $products[$key]->product_imgs_min = NULL;
+                    $parameters['color'] = $row['цвет'];
+                    $parameters['size'] = $row['размер'];
+                    $products[$key]->product_parameters = serialize($parameters);
+                    $products[$key]->product_price = $row['цена'];
+                    $products[$key]->product_description = $row['описание'];
+
+                    $productsList[$key]->user_id = Yii::$app->user->identity->id;
+                    $productsList[$key]->shop_id = Shops::getShopIdByUserId($user_id);
+//                    $productsList[$key]->product_id = ;
+                    $productsList[$key]->section_id = Yii::$app->request->post('section_id');
+                    $productsList[$key]->category_id = Yii::$app->request->post('category_id');
+                    $productsList[$key]->subcategory_id = Yii::$app->request->post('subcategory_id');
+                    $productsList[$key]->product_list_count = $row['количество'];
+                    if (AuthAssignment::isVerifiedSeller($user_id)) {
+                        $productsList[$key]->product_list_status = 1;
+                    }
+                    $productsList[$key]->city_id = settype(AuthAssignment::getCityIdByUserId(Yii::$app->user->identity->id), 'INTEGER');
+                }
+                $count = count($products);
+                for ($i=0; $i < $count; $i++) {
+                    if(!$products[$i]->validate()) {
+                        return $this->render('add-by-excel', ['error' => TRUE, 'message' => $products[$i]->getErrors()]);
+                    } elseif (!$productsList[$i]->validate()) {
+                        return $this->render('add-by-excel', ['error' => TRUE, 'message' => $productsList[$i]->getErrors()]);
+                    }
+                }
+                for ($i=0; $i < $count; $i++) {
+                    if ($products[$i]->save()) {
+                        $productsList[$i]->product_id = $products[$i]->product_id;
+                        if (!$productsList[$i]->save()) {
+                            return $this->render('add-by-excel', ['error' => TRUE, 'message' => $productsList[$i]->getErrors()]);
+                        }
+                        if($i + 1 == $count) {
+                            return $this->render('add-by-excel', ['success' => TRUE, 'message' => 'Товары успешно добавлены']);
+                        }
+                    } else {
+                        return $this->render('add-by-excel', ['error' => TRUE, 'message' => $products[$i]->getErrors()]);
+                    }
+                }
+                return 'asd';
+            } else {
+                return $this->render('add-by-excel');
+            }
+        } else {
+            throw new ForbiddenHttpException('Доступ запрещен');
         }
     }
 }

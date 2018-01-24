@@ -79,6 +79,12 @@ class Shops extends \yii\db\ActiveRecord
         return $shop->user_id;
     }
 
+    public static function getShopIdByUserId($user_id)
+    {
+        $shop = static::findOne(['user_id' => $user_id]);
+        return $shop->shop_id;
+    }
+
     public static function setShopRating($shop_id, $rating_value)
     {
         if ($shop = static::findOne(['shop_id' => $shop_id])) {

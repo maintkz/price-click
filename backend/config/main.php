@@ -28,7 +28,7 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['guest'],
+            // 'defaultRoles' => ['guest'],
             //'defaultRoles' => ['admin', 'dealer', 'seller'],
         ],
         'log' => [

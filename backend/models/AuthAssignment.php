@@ -99,4 +99,12 @@ class AuthAssignment extends \yii\db\ActiveRecord
     {
         return static::find()->select('city_id')->where(['user_id' => $user_id])->one();
     }
+
+    /**
+     *
+     */
+    public static function isVerifiedSeller($user_id)
+    {
+        return static::find()->select('verified')->where(['user_id' => $user_id])->one();
+    }
 }
