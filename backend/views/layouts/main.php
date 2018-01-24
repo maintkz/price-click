@@ -97,17 +97,25 @@ $this->registerJsFile(
 
                             <li class="navigation-header"><span>Меню</span> <i class="icon-menu" title="" data-original-title=""></i></li>
 
-
+                    <?php
+                    if(Yii::$app->user->can('grant-permission-to-dealer')) {
+                    ?>
                         <!-- Add categories -->
                         <li>
                             <a href="#"><i class="icon-warning22" title="Доступы"></i> <span>Доступы</span></a>
                             <ul>
-                                <li><a href="<?= Url::to(['administrator/permissions']); ?>">Доступы дилеров</a></li>
-                                <li><a href="<?= Url::to(['administrator/permissions']); ?>">Достуры продавцов</a></li>
+                                <li><a href="<?= Url::to(['administrator/dealer-permissions']); ?>">Доступы дилеров</a></li>
+                                <li><a href="<?= Url::to(['administrator/seller-permissions']); ?>">Достуры продавцов</a></li>
                             </ul>
                         </li>
                         <!-- /add categories -->
+                    <?php
+                    }
+                    ?>
 
+                    <?php
+                    if(Yii::$app->user->can('edit-options')) {
+                    ?>
                         <!-- Add slides -->
                         <li>
                             <a href="#"><i class="icon-cog" title="Общие настройки"></i> <span>Общие настройки</span></a>
@@ -117,11 +125,13 @@ $this->registerJsFile(
                             </ul>
                         </li>
                         <!-- /add slides -->
+                    <?php
+                    }
+                    ?>
 
                     <?php
                     if(Yii::$app->user->can('add-category')) {
                     ?>
-
                         <!-- Add categories -->
                         <li>
                             <a href="#"><i class="icon-list" title="Категории"></i> <span>Категории</span></a>
@@ -130,7 +140,6 @@ $this->registerJsFile(
                             </ul>
                         </li>
                         <!-- /add categories -->
-
                     <?php
                     }
                     ?>

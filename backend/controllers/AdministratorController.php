@@ -133,4 +133,54 @@ class AdministratorController extends Controller
             throw new ForbiddenHttpException('Доступ запрещен');
         }
     }
+
+    /**
+ * Displays display
+ *
+ *
+ */
+    public function actionDealerPermissions()
+    {
+        if(Yii::$app->user->can('grant-permission-to-dealer')) {
+            $dealers = AuthAssignment::find()
+                ->select(
+                    '`user_id`,
+                    `user`.`email`,
+                    `user`.`username`,
+                    `auth_assignment`.`status`'
+                )
+                ->where(['item_name' => 'dealer'])
+                ->innerJoin('user', '`auth_assignment`.`user_id` = `user`.`id`')
+                ->asArray()
+                ->all();
+            return $this->render('dealer-permissions', ['dealers' => $dealers]);
+        } else {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+    }
+
+    /**
+     * Displays display
+     *
+     *
+     */
+    public function actionSellerPermissions()
+    {
+        if(Yii::$app->user->can('grant-permission-to-dealer')) {
+            $sellers = AuthAssignment::find()
+                ->select(
+                    '`user_id`,
+                    `user`.`email`,
+                    `user`.`username`,
+                    `auth_assignment`.`status`'
+                )
+                ->where(['item_name' => 'seller'])
+                ->innerJoin('user', '`auth_assignment`.`user_id` = `user`.`id`')
+                ->asArray()
+                ->all();
+            return $this->render('seller-permissions', ['sellers' => $sellers]);
+        } else {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+    }
 }
