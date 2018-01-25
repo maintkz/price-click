@@ -35,17 +35,12 @@ class OrderController extends Controller
         $order_group = new OrderGroup;
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(Yii::$app->request->isPost) {
-
-//            return Yii::$app->request->post();
-//            die();
             $auth_key = Yii::$app->request->post('auth_key');
-            $a = MobileUser::find()->select('auth_key')->asArray()->where(['id' => 9])->one();
-            return 'auth_key sent: ' . $auth_key . '; auth_key in db: ' . $a['auth_key'];
             if ($mUser = $mUser->getIdentityByAuthKey($auth_key)) {
 
                 $products = Yii::$app->request->post('products');
-//                return Yii::$app->request->post();
-//                die();
+                return Yii::$app->request->post();
+                die();
                 $overall_summ = 0;
                 foreach ($products as $key => $value) {
                     $orders[$key] = new Orders;
