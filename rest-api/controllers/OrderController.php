@@ -36,7 +36,7 @@ class OrderController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(Yii::$app->request->isPost) {
 
-            return Yii::$app->request->post('auth_key');
+            return Yii::$app->request->post();
             die();
             $auth_key = Yii::$app->request->post('auth_key');
             if ($mUser = $mUser->getIdentityByAuthKey($auth_key)) {
