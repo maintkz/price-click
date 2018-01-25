@@ -40,6 +40,7 @@ class OrderController extends Controller
 
                 $products = Yii::$app->request->post('products');
                 return $products;
+                die();
                 $overall_summ = 0;
                 foreach ($products as $key => $value) {
                     $orders[$key] = new Orders;
