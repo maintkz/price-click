@@ -36,10 +36,20 @@ class CategoriesController extends Controller
 
     public function actionCategoryStructure()
     {
-        $section = \Yii::$app->request->get('section_id');
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        if (Yii::$app->request->isPost) {
-            //
+        if (Yii::$app->request->isGet) {
+            $section = \Yii::$app->request->get('section_id');
+            if($section) {
+
+            } else {
+                \Yii::$app->response->statusCode = 400;
+                $response['status'] = '400';
+                $response['message'] = 'section_id is not send or empty';
+                return $response;
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
         }
 
         if(empty($section)) {
