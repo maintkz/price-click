@@ -37,7 +37,6 @@ class OrderController extends Controller
         if(Yii::$app->request->isPost) {
             $auth_key = Yii::$app->request->post('auth_key');
             if ($mUser = $mUser->getIdentityByAuthKey($auth_key)) {
-
                 $products = Yii::$app->request->post('products');
                 $overall_summ = 0;
                 foreach ($products as $key => $value) {

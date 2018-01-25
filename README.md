@@ -151,3 +151,7 @@
         	"order_id": 66
         }
    ```
+  ## Структура категори и подкатегорий
+          url: /categories/?section_id=23
+          method: GET
+          format: JSON

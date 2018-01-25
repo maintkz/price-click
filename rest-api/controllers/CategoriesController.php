@@ -22,16 +22,8 @@ class CategoriesController extends Controller
      */
     public function actionIndex()
     {
-        $section = \Yii::$app->request->get('section');
-        if(empty($section)) {
-            return Functions::badRequestResponse();
-        } else {
-            $categories = Categories::find()
-                ->where(['section_id' => $section])
-                ->asArray()
-                ->all();
-            return Functions::prepareResponse($categories);
-        }
+        $section_id = \Yii::$app->request->get('section_id');
+        return Functions::prepareResponse(Functions::getCategoriesSubcategories($section_id));
     }
 
     public function actionCategoryStructure()

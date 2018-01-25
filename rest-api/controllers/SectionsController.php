@@ -8,8 +8,6 @@
 
 namespace api\controllers;
 
-use Yii;
-use backend\models\Sections;
 use yii\web\Controller;
 use api\functions\Functions;
 
@@ -19,10 +17,6 @@ class SectionsController extends Controller
 
     public function actionIndex()
     {
-        $sections = Sections::find()
-            ->asArray()
-            ->all();
-
-        return Functions::prepareResponse($sections);
+        return Functions::prepareResponse(Functions::getSections());
     }
 }

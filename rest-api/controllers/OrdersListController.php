@@ -55,6 +55,7 @@ class OrdersListController extends Controller
                     if (count($orderGroup) > 0) {
                         return $orderGroup;
                     } else {
+                        \Yii::$app->response->statusCode = 404;
                         $response['status'] = '404';
                         $response['message'] = 'There is no orders for this user.';
                         return $response;
@@ -63,6 +64,7 @@ class OrdersListController extends Controller
                     return Functions::authKeyNotFound();
                 }
             } else {
+                \Yii::$app->response->statusCode = 404;
                 $response['status'] = '400';
                 $response['message'] = 'Missing required parameter. Required: "order_group_id"';
                 return $response;
