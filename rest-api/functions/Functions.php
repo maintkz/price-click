@@ -48,10 +48,10 @@ class Functions
         return $response;
     }
 
-    public static function methodNotAllowedResponse()
+    public static function methodNotAllowedResponse($method = 'POST')
     {
         $response['status'] = 405;
-        $response['message'] = "Method Not Allowed, Allowed Methods: POST";
+        $response['message'] = "Method Not Allowed, Allowed Methods: " . $method;
         \Yii::$app->response->statusCode = 405;
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $response;
