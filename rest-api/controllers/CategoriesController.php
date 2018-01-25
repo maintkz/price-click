@@ -10,6 +10,7 @@ namespace api\controllers;
 
 use api\functions\Functions;
 use backend\models\Categories;
+use Yii;
 use yii\web\Controller;
 
 class CategoriesController extends Controller
@@ -36,6 +37,11 @@ class CategoriesController extends Controller
     public function actionCategoryStructure()
     {
         $section = \Yii::$app->request->get('section_id');
+
+        if (Yii::$app->request->isPost) {
+            //
+        }
+
         if(empty($section)) {
             return Functions::badRequestResponse('Отсутвует ID раздела');
         } else {

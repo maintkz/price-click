@@ -67,7 +67,7 @@ $this->registerJsFile(
                     <div class="category-content">
                         <div class="sidebar-user-material-content">
                             <a href="#">
-                                <?= Html::img('@backweb/images/placeholder.jpg', ['class' => 'img-circle img-responsive']); ?>
+                                <?= Html::img('@backweb/images/logo.png', ['class' => 'img-responsive']); ?>
                             </a>
                             <h6><?= Yii::$app->user->identity->username; ?></h6>
                             <span class="text-size-small">Администратор</span>
@@ -79,7 +79,7 @@ $this->registerJsFile(
                     </div>
 
                     <!-- csrf token -->
-                    <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []); ?>
+                    <?= Html :: hiddenInput(Yii::$app->getRequest()->csrfParam, Yii::$app->getRequest()->getCsrfToken(), []); ?>
                     <div class="navigation-wrapper collapse" id="user-nav">
                         <ul class="navigation">
                             <li><a href="<?= Url::to(['site/logout']); ?>" id="logout"><i class="icon-switch2"></i> <span>Выйти</span></a></li>
@@ -221,11 +221,10 @@ $this->registerJsFile(
         <!-- Main content -->
         <div class="content-wrapper">
             <!-- Page header -->
-            <div class="page-header page-header-default" style="background-color: #313f8c;">
+            <div class="page-header page-header-default">
                 <div class="page-header-content">
                     <div class="page-title">
-                        <?= Html::img('@backweb/images/logo.png', ['class' => '', 'style' => 'height: 70px;']); ?>
-                        <h4 style="color: #fff; margin-top: 25px;"><?= $this->title; ?></h4>
+                        <h4><?= $this->title; ?></h4>
                     </div>
 
                     <div class="heading-elements">
