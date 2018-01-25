@@ -39,7 +39,8 @@ class OrderController extends Controller
 //            return Yii::$app->request->post();
 //            die();
             $auth_key = Yii::$app->request->post('auth_key');
-            return 'auth_key sent: ' . $auth_key . '; auth_key in db: ' . MobileUser::find()->select('auth_key')->where(['id' => 9])->one();
+            $a = MobileUser::find()->select('auth_key')->asArray()->where(['id' => 9])->one();
+            return 'auth_key sent: ' . $auth_key . '; auth_key in db: ' . $a['auth_key'];
             if ($mUser = $mUser->getIdentityByAuthKey($auth_key)) {
 
                 $products = Yii::$app->request->post('products');
