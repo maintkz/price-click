@@ -155,7 +155,7 @@
           url: /categories/?section_id=23
           method: GET
   ## Пользовательское соглашение
-          url: /admin/terms/
+          url: http://priceclick.kz/terms
           method: GET
   ## Продукты категории
           url: /products/category-products?category_id=15&city_id=1

@@ -210,4 +210,9 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionTerms()
+    {
+        return $this->renderAjax('terms');
+    }
 }
