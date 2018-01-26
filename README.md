@@ -154,4 +154,12 @@
   ## Структура категори и подкатегорий
           url: /categories/?section_id=23
           method: GET
-          format: JSON
+  ## Пользовательское соглашение
+          url: /admin/terms/
+          method: GET
+  ## Продукты категории
+          url: /products/category-products?category_id=15&city_id=1
+          method: GET
+  ## Продукты подкатегории
+          url: /products/subcategory-products?subcategory_id=13&city_id=1
+          method: GET

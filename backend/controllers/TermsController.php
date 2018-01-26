@@ -15,6 +15,6 @@ class TermsController extends Controller
 {
     public function actionIndex()
     {
-        return $this->renderAjax('index.php');
+        return $this->renderAjax('index');
     }
 }

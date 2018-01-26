@@ -2,7 +2,7 @@
 
 
 ?>
-
+<div style="padding: 0 30px">
 <p style="margin-left:0cm; margin-right:0cm; text-align:center"><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif"><a name="bookmark0"><strong><span style="font-size:12.0pt"><span style="background-color:aqua">Пользовательское соглашение об условиях использования</span></span></strong></a></span></span></p>
 
 <p style="margin-left:0cm; margin-right:0cm; text-align:center"><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif"><strong><span style="font-size:12.0pt"><span style="background-color:aqua">мобильного приложения </span></span></strong><strong><span style="font-size:12.0pt"><span style="background-color:aqua"><span style="font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">&laquo;</span></span></span></strong><strong><span style="font-size:12.0pt"><span style="background-color:aqua">Price</span></span></strong><strong> </strong><strong><span style="font-size:12.0pt"><span style="background-color:aqua">Click</span></span></strong><strong><span style="font-size:12.0pt"><span style="background-color:aqua"><span style="font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;">&raquo;</span></span></span></strong></span></span></p>
@@ -199,3 +199,4 @@
 
 <p style="margin-left:0cm; margin-right:0cm; text-align:justify">&nbsp;</p>
 
+</div>

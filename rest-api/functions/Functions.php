@@ -66,6 +66,15 @@ class Functions
         return $response;
     }
 
+    public static function missingParameter($parameters_array)
+    {
+        $response['status'] = 400;
+        $response['message'] = implode(', ', $parameters_array) . " is not sent or empty.";
+        \Yii::$app->response->statusCode = 400;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $response;
+    }
+
     public static function prepareSerializedData($array)
     {
         for($i=0; $i<count($array); $i++) {

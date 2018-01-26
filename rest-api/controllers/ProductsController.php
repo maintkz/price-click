@@ -10,6 +10,7 @@ namespace api\controllers;
 
 use api\functions\Functions;
 use backend\models\ProductsList;
+use Yii;
 use yii\web\Controller;
 
 class ProductsController extends Controller
@@ -82,6 +83,61 @@ class ProductsController extends Controller
                 ->all();
             $products = Functions::prepareSerializedData($products);
             return Functions::prepareResponse($products);
+        }
+    }
+
+    public function actionCategoryProducts()
+    {
+        if (Yii::$app->request->isGet) {
+            $category_id = Yii::$app->request->get('category_id');
+            $city_id = Yii::$app->request->get('city_id');
+            settype($category_id, 'INTEGER');
+            settype($city_id, 'INTEGER');
+            if (empty($category_id)) {
+                return Functions::missingParameter(['category_id']);
+            } elseif (empty($category_id)) {
+                return Functions::missingParameter(['city_id']);
+            } else {
+                $products = Functions::selectProduct()
+                    ->where([
+                        '`products_list`.`category_id`' => $category_id,
+                        '`products_list`.`city_id`' => $city_id,
+                        '`products_list`.`product_list_status`' => 1
+                    ])
+                    ->all();
+                $products = Functions::prepareSerializedData($products);
+                return Functions::prepareResponse($products);
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
+        }
+    }
+
+    public function actionSubcategoryProducts()
+    {
+        if (Yii::$app->request->isGet) {
+            $subcategory_id = Yii::$app->request->get('subcategory_id');
+            $city_id = Yii::$app->request->get('city_id');
+            settype($subcategory_id, 'INTEGER');
+            settype($city_id, 'INTEGER');
+            if (empty($city_id)) {
+                return Functions::missingParameter(['city_id']);
+            }
+            if (empty($subcategory_id)) {
+                return Functions::missingParameter(['subcategory_id']);
+            } else {
+                $products = Functions::selectProduct()
+                    ->where([
+                        '`products_list`.`subcategory_id`' => $subcategory_id,
+                        '`products_list`.`city_id`' => $city_id,
+                        '`products_list`.`product_list_status`' => 1
+                    ])
+                    ->all();
+                $products = Functions::prepareSerializedData($products);
+                return Functions::prepareResponse($products);
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
         }
     }
 }
