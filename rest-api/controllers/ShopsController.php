@@ -11,6 +11,7 @@ namespace api\controllers;
 use api\functions\Functions;
 use backend\models\ProductsList;
 use backend\models\Shops;
+use Yii;
 use yii\web\Controller;
 
 class ShopsController extends Controller
@@ -55,6 +56,73 @@ class ShopsController extends Controller
                     ->all();
                 return Functions::prepareResponse($shops);
             }
+        }
+    }
+
+    public function actionCategoryShops()
+    {
+        if (Yii::$app->request->isGet) {
+            $category_id = Yii::$app->request->get('category_id');
+            $city_id = Yii::$app->request->get('city_id');
+            settype($category_id, 'INTEGER');
+            settype($city_id, 'INTEGER');
+            if (empty($category_id)) {
+                return Functions::missingParameter(['category_id']);
+            } elseif (empty($category_id)) {
+                return Functions::missingParameter(['city_id']);
+            } else {
+                $shops_ids = ProductsList::find()
+                    ->select('user_id')
+                    ->where(['city_id' => $city_id])
+                    ->andWhere(['category_id' => $category_id])
+                    ->groupBy('user_id')
+                    ->all();
+                if(empty($shops_ids)) {
+                    return Functions::badRequestResponse('Магазины данной категории не найдены');
+                } else {
+                    $shops = Shops::find()
+                        ->where(['user_id' => $shops_ids])
+                        ->asArray()
+                        ->all();
+                    return Functions::prepareResponse($shops);
+                }
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
+        }
+    }
+
+    public function actionSubcategoryShops()
+    {
+        if (Yii::$app->request->isGet) {
+            $subcategory_id = Yii::$app->request->get('subcategory_id');
+            $city_id = Yii::$app->request->get('city_id');
+            settype($subcategory_id, 'INTEGER');
+            settype($city_id, 'INTEGER');
+            if (empty($city_id)) {
+                return Functions::missingParameter(['city_id']);
+            }
+            if (empty($subcategory_id)) {
+                return Functions::missingParameter(['subcategory_id']);
+            } else {
+                $shops_ids = ProductsList::find()
+                    ->select('user_id')
+                    ->where(['city_id' => $city_id])
+                    ->andWhere(['subcategory_id' => $subcategory_id])
+                    ->groupBy('user_id')
+                    ->all();
+                if(empty($shops_ids)) {
+                    return Functions::badRequestResponse('Магазины данной категории не найдены');
+                } else {
+                    $shops = Shops::find()
+                        ->where(['user_id' => $shops_ids])
+                        ->asArray()
+                        ->all();
+                    return Functions::prepareResponse($shops);
+                }
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
         }
     }
 }

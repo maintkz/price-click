@@ -163,3 +163,9 @@
   ## Продукты подкатегории
           url: /products/subcategory-products?subcategory_id=13&city_id=1
           method: GET
+  ## Магазины категории
+          url: /shops/category-shops?category_id=13&city_id=1
+          method: GET
+  ## Магазины подкатегории
+          url: /shops/subcategory-shops?subcategory_id=24&city_id=1
+          method: GET
