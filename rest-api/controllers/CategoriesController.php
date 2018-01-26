@@ -9,7 +9,6 @@
 namespace api\controllers;
 
 use api\functions\Functions;
-use backend\models\Categories;
 use Yii;
 use yii\web\Controller;
 
@@ -22,32 +21,8 @@ class CategoriesController extends Controller
      */
     public function actionIndex()
     {
-        $section_id = \Yii::$app->request->get('section_id');
+        $section_id = Yii::$app->request->get('section_id');
         return Functions::prepareResponse(Functions::getCategoriesSubcategories($section_id));
     }
 
-    public function actionCategoryStructure()
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        if (Yii::$app->request->isGet) {
-            $section = \Yii::$app->request->get('section_id');
-            if($section) {
-
-            } else {
-                \Yii::$app->response->statusCode = 400;
-                $response['status'] = '400';
-                $response['message'] = 'section_id is not send or empty';
-                return $response;
-            }
-        } else {
-            return Functions::methodNotAllowedResponse('GET');
-        }
-
-        if(empty($section)) {
-            return Functions::badRequestResponse('Отсутвует ID раздела');
-        } else {
-            return Functions::getCategoryStructure($section);
-        }
-    }
 }

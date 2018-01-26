@@ -172,3 +172,8 @@
   ## Shop Info
           url: /shops/shop-info?shop_id=3
           method: GET
+  ## Search products
+          url: /products/search?query=суп
+          method: GET
+  ## Search shops
+          url: /shops/search?query=зоо

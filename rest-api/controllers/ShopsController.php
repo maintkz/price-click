@@ -146,4 +146,22 @@ class ShopsController extends Controller
             return Functions::methodNotAllowedResponse('GET');
         }
     }
+
+    public function actionSearch()
+    {
+        if (Yii::$app->request->isGet) {
+            $query = Yii::$app->request->get('query');
+            if (!empty($query)) {
+                $shops = Shops::find()
+                    ->where(['LIKE', 'shop_name', $query])
+                    ->asArray()
+                    ->all();
+                return Functions::prepareResponse($shops);
+            } else {
+                return Functions::missingParameter(['query']);
+            }
+        } else {
+            return Functions::methodNotAllowedResponse(['GET']);
+        }
+    }
 }

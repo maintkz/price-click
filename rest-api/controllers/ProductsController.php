@@ -140,4 +140,24 @@ class ProductsController extends Controller
             return Functions::methodNotAllowedResponse('GET');
         }
     }
+
+    public function actionSearch()
+    {
+        if (Yii::$app->request->isGet) {
+            $query = Yii::$app->request->get('query');
+            if (!empty($query)) {
+                $products = Functions::selectProduct()
+                    ->where(['LIKE', '`products`.`product_name`', $query])
+                    ->orWhere(['LIKE', '`products`.`product_description`', $query])
+                    ->orWhere(['LIKE', '`products`.`product_price`', $query])
+                    ->all();
+                $products = Functions::prepareSerializedData($products);
+                return Functions::prepareResponse($products);
+            } else {
+                return Functions::missingParameter(['query']);
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
+        }
+    }
 }
