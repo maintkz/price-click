@@ -125,4 +125,25 @@ class ShopsController extends Controller
             return Functions::methodNotAllowedResponse('GET');
         }
     }
+
+    public function actionShopInfo()
+    {
+        if (Yii::$app->request->isGet) {
+            $shop_id = Yii::$app->request->get('shop_id');
+            settype($shop_id, 'INTEGER');
+            if (!empty($shop_id)) {
+                $shop = Shops::find()
+                    ->where([
+                        'shop_id' => $shop_id
+                    ])
+                    ->asArray()
+                    ->all();
+                return Functions::prepareResponse($shop);
+            } else {
+                return Functions::missingParameter(['shop_id']);
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
+        }
+    }
 }
