@@ -87,6 +87,35 @@ class ProductsController extends Controller
         }
     }
 
+    public function actionShopSubcategory()
+    {
+        $city_id = \Yii::$app->request->get('city_id');
+        $shop_id = \Yii::$app->request->get('shop_id');
+        $subcategory_id = \Yii::$app->request->get('subcategory_id');
+        settype($city_id, 'INTEGER');
+        settype($shop_id, 'INTEGER');
+        settype($section_id, 'INTEGER');
+        if(empty($city_id)) {
+            return Functions::badRequestResponse();
+        } elseif(empty($shop_id)) {
+            return Functions::badRequestResponse('Отсутсвует ID магазина');
+        } elseif(empty($subcategory_id)) {
+            return Functions::badRequestResponse('Отсутсвует ID Подкатегории');
+        } else {
+            $products = Functions::selectProduct();
+            $products = $products
+                ->where([
+                    '`products_list`.`city_id`' => $city_id,
+                    '`products_list`.`shop_id`' => $shop_id,
+                    '`products_list`.`subcategory_id`' => $subcategory_id,
+                    '`products_list`.`product_list_status`' => 1
+                ])
+                ->all();
+            $products = Functions::prepareSerializedData($products);
+            return Functions::prepareResponse($products);
+        }
+    }
+
     public function actionCategoryProducts()
     {
         if (Yii::$app->request->isGet) {

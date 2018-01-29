@@ -199,3 +199,6 @@
   ## Структура категорий магазина
           url: /categories/shop-categories?shop_id=4
           method: GET
+  ## Товары магазина подкатегории
+          url: /products/shop-subcategory?shop_id=4&city_id=1&subcategory_id=13
+          method: GET
