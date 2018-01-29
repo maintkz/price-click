@@ -21,18 +21,18 @@ class SignupForm extends Model
     {
         return [
             ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'required', 'message' => 'Логин обязателен'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Данный логин уже занят.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
-            ['email', 'required'],
+            ['email', 'required', 'message' => 'email обязателен.'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Данный email уже зарегистрирован.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'required', 'message' => 'Пароль обязателен.'],
+            ['password', 'string', 'min' => 6, 'message' => 'Пароль должен содержать минимум 6 символов'],
         ];
     }
 

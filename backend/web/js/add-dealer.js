@@ -39,10 +39,8 @@ $(function() {
     });
 
 
-    // Setup validation
-    // ------------------------------
 
-    // Initialize
+    // Submit form
     $('#add-dealer-submit').on('click', function (e) {
         e.preventDefault();
         var form = document.getElementById('add-dealer-form');
@@ -61,20 +59,36 @@ $(function() {
             },
             type: 'POST',
             url: '/admin/ajax/add-dealer',
-            // cache : false,
             contentType: false,
             processData: false,
             data: formData,
             success: function(response){
                 console.log(response);
-                setTimeout(function () {
+                if (response.status_code == 400) {
+                    $('.validation-error-label').remove();
+                    $.each(response.error, function (key, value) {
+                        var name = response.target + '[' + key + ']';
+                        $('[name="' + name + '"]').after('<label class="validation-error-label">' + value + '</label>');
+                        console.log(name);
+                    });
                     swal({
-                        title: "Товар добавлен!",
+                        title: "Заполните поля правильно!",
+                        type: "error"
+                    });
+                } else if (response.status_code == 500) {
+                    swal({
+                        title: "Не сохранено. Попробуйте еще раз.",
+                        type: "error"
+                    });
+                } else if (response.status_code == 201) {
+                    swal({
+                        title: "Дилер добавлен!",
                         confirmButtonColor: "#66BB6A",
                         type: "success"
+                    }, function() {
+                        document.location.reload();
                     });
-                } , 1500);
-
+                }
             }
         }).fail(function (xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);
@@ -84,8 +98,7 @@ $(function() {
 
     // Reset form
     $('#reset').on('click', function() {
-        validator.resetForm();
-    });
 
+    });
 
 });

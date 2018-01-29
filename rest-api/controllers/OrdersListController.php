@@ -41,7 +41,8 @@ class OrdersListController extends Controller
                             `shops`.`shop_name`,
                             `products`.`product_id`,
                             `products`.`product_main_img`,
-                            `shops`.`shop_id`'
+                            `shops`.`shop_id`,
+                            `orders`.`product_count`'
                         )
                         ->innerJoin('products', '`orders`.`product_id` = `products`.`product_id`')
                         ->innerJoin('order_group', '`orders`.`order_group_id` = `order_group`.`id`')

@@ -30,10 +30,10 @@ class DealersInfo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'address', 'phone', 'description'], 'required'],
+            [['address', 'phone', 'description'], 'required', 'message' => 'Поле обязательно для заполнения'],
             [['user_id'], 'integer'],
             [['description'], 'string'],
-            [['date'], 'safe'],
+            [['date', 'user_id'], 'safe'],
             [['address'], 'string', 'max' => 2000],
             [['phone'], 'string', 'max' => 50],
         ];

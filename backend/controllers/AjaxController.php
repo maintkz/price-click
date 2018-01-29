@@ -521,19 +521,39 @@ class AjaxController extends Controller
             if (!$signupForm->validate()) {
                 $response['status_code'] = 400;
                 $response['message'] = 'Validating failed.';
+                $response['target'] = 'SignupForm';
                 $response['error'] = $signupForm->getErrors();
                 return $response;
             } elseif (!$dealersInfo->validate()) {
                 $response['status_code'] = 400;
                 $response['message'] = 'Validating failed.';
+                $response['target'] = 'DealersInfo';
                 $response['error'] = $dealersInfo->getErrors();
                 return $response;
             } else {
-
+                if ($user = $signupForm->signup()) {
+                    $dealersInfo->user_id = $user->id;
+                    if ($dealersInfo->save()) {
+                        $response['status_code'] = 201;
+                        $response['message'] = 'Success';
+                        return $response;
+                    } else {
+                        $response['status_code'] = 500;
+                        $response['message'] = 'Save failed';
+                        $response['error'] = $dealersInfo->getErrors();
+                        return $response;
+                    }
+                } else {
+                    $response['status_code'] = 500;
+                    $response['message'] = 'Save failed';
+                    $response['error'] = $signupForm->getErrors();
+                    return $response;
+                }
             }
-            return Yii::$app->request->post();
         } else {
-            return ['message' => 'request must be an Ajax'];
+            $response['status_code'] = 405;
+            $response['message'] = 'Request must be an Ajax';
+            return $response;
         }
     }
 }
