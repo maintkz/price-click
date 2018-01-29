@@ -11,6 +11,7 @@ namespace api\controllers;
 use api\functions\Functions;
 use backend\models\ProductsList;
 use backend\models\Shops;
+use function foo\func;
 use Yii;
 use yii\web\Controller;
 
@@ -147,10 +148,65 @@ class ShopsController extends Controller
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function actionSearch()
     {
         if (Yii::$app->request->isGet) {
             $query = Yii::$app->request->get('query');
+            $city_id = Yii::$app->request->get('city_id');
+            $section_id = Yii::$app->request->get('section_id');
+            $subcategory_id = Yii::$app->request->get('subcategory_id');
+            settype($city_id, 'INTEGER');
+            settype($section_id, 'INTEGER');
+            settype($subcategory_id, 'INTEGER');
+
+            if (!empty($query) && !empty($section_id) && !empty($city_id)) {
+                $shop_ids = ProductsList::find()
+                    ->select('user_id')
+                    ->where(['section_id' => $section_id, 'city_id' => $city_id])
+                    ->asArray()
+                    ->all();
+                $shops = Shops::find()
+                    ->select('')
+                    ->where(['user_id' => $shop_ids])
+                    ->andWhere(['LIKE', 'shop_name', $query])
+                    ->asArray()
+                    ->all();
+                return Functions::prepareResponse($shops);
+            } elseif (!empty($query) && !empty($subcategory_id) && !empty($city_id)) {
+                $shop_ids = ProductsList::find()
+                    ->select('user_id')
+                    ->where(['subcategory_id' => $subcategory_id, 'city_id' => $city_id])
+                    ->asArray()
+                    ->all();
+                $shops = Shops::find()
+                    ->select('')
+                    ->where(['user_id' => $shop_ids])
+                    ->andWhere(['LIKE', 'shop_name', $query])
+                    ->asArray()
+                    ->all();
+                return Functions::prepareResponse($shops);
+            } elseif (!empty($query) && !empty($city_id)) {
+                $shop_ids = ProductsList::find()
+                    ->select('user_id')
+                    ->where(['city_id' => $city_id])
+                    ->asArray()
+                    ->all();
+                $shops = Shops::find()
+                    ->select('')
+                    ->where(['user_id' => $shop_ids])
+                    ->andWhere(['LIKE', 'shop_name', $query])
+                    ->asArray()
+                    ->all();
+                return Functions::prepareResponse($shops);
+            } elseif (empty($query)) {
+                return Functions::missingParameter(['query']);
+            } elseif (empty($city_id)) {
+                return Functions::missingParameter(['city_id']);
+            }
+
             if (!empty($query)) {
                 $shops = Shops::find()
                     ->where(['LIKE', 'shop_name', $query])
@@ -164,4 +220,5 @@ class ShopsController extends Controller
             return Functions::methodNotAllowedResponse(['GET']);
         }
     }
+
 }

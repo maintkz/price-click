@@ -175,5 +175,12 @@
   ## Search products
           url: /products/search?query=суп
           method: GET
-  ## Search shops
-          url: /shops/search?query=зоо
+  ## Поиски по магазинам во всех организациях
+          url: /shops/search?query=зомания&city_id=1
+          method: GET
+  ## Поиски по магазинам по разделам
+            url: /shops/search?query=зоомания&city_id=1&section_id=13
+            method: GET
+  ## Поиски по магазинам по подкатегориям
+            url: /shops/search?query=букет&city_id=1&subcategory_id=24
+            method: GET

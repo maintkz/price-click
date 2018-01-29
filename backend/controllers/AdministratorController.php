@@ -183,4 +183,18 @@ class AdministratorController extends Controller
             throw new ForbiddenHttpException('Доступ запрещен');
         }
     }
+
+    /**
+     * Displays display
+     *
+     *
+     */
+    public function actionDealersBalance()
+    {
+        if (Yii::$app->user->can('view-dealers-balance')) {
+            return $this->render('dealers-balance');
+        } else {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+    }
 }

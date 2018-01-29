@@ -52,7 +52,7 @@ $this->registerJsFile( '@web/js/add-dealer.js', ['depends' => [\yii\web\JqueryAs
             <fieldset class="content-group">
 
                 <!-- csrf token -->
-                <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii :: $app->getRequest()->getCsrfToken(), []); ?>
+                <?= Html :: hiddenInput(\Yii::$app->getRequest()->csrfParam, \Yii::$app->getRequest()->getCsrfToken(), []); ?>
 
                 <!-- Basic text input -->
                 <div class="form-group">
@@ -76,10 +76,37 @@ $this->registerJsFile( '@web/js/add-dealer.js', ['depends' => [\yii\web\JqueryAs
                 <div class="form-group">
                     <label class="control-label col-lg-3">Пароль <span class="text-danger">*</span></label>
                     <div class="col-lg-9">
-                        <input type="password" name="SignupForm[password]" id="password" class="form-control" required="required" placeholder="Минимум 5 символов">
+                        <input type="password" name="SignupForm[password]" id="password" class="form-control" required="required" placeholder="Минимум 6 символов">
                     </div>
                 </div>
                 <!-- /password field -->
+
+                <!-- Basic text input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Адрес<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <input type="text" name="DealersInfo[address]" class="form-control" required="required" placeholder="Введите адрес">
+                    </div>
+                </div>
+                <!-- /basic text input -->
+
+                <!-- Basic text input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Телефон<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <input type="text" name="DealersInfo[phone]" class="form-control" required="required" placeholder="Введите телефон">
+                    </div>
+                </div>
+                <!-- /basic text input -->
+
+                <!-- Basic text input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Описание<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <textarea rows="5" cols="5" name="DealersInfo[description]" class="form-control" placeholder="Введите описание"></textarea>
+                    </div>
+                </div>
+                <!-- /basic text input -->
 
             </fieldset>
 
