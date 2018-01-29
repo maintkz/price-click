@@ -151,7 +151,7 @@
         	"order_id": 66
         }
    ```
-  ## Структура категори и подкатегорий
+  ## Структура категорий и подкатегорий
           url: /categories/?section_id=23
           method: GET
   ## Пользовательское соглашение
@@ -192,4 +192,7 @@
           method: GET
   ## Поиски продуктов по подкатегориям
           url: /products/search?query=салат&city_id=1&subcategory_id=20
+          method: GET
+  ## Структура всех категорий и подкатегорий
+          url: /categories/all-sections
           method: GET

@@ -148,55 +148,36 @@ class Functions
         return $sections;
     }
 
-    public static function getCategoriesSubcategories($section_id)
+    public static function getCategoriesSubcategories($section_id = NULL)
     {
-        settype($section_id, 'INTEGER');
-        if($section_id) {
+        if ($section_id) {
             $categories = Subcategories::find()->where(['section_id' => $section_id])->orderBy('category_id')->all();
-            $rows = count($categories);
-            $ind = 0;
-            $sub = 0;
-            $last_category_id = 0;
-            $last_category_name = '';
-            for ($i = 0; $i < $rows; $i ++) {
-                if ($i == 0) {
-                    $structure[$ind]['category_id'] = $categories[$i]['category_id'];
-                    $structure[$ind]['category_name'] = $categories[$i]['category_name'];
-                } elseif ($last_category_id == $categories[$i]['category_id']) {
-                    $structure[$ind]['category_id'] = $last_category_id;
-                    $structure[$ind]['category_name'] = $last_category_name;
-                } else {
-                    $ind ++;
-                    $sub = 0;
-                }
-                $structure[$ind]['subcategories'][$sub]['subcategory_id'] = $categories[$i]['subcategory_id'];
-                $structure[$ind]['subcategories'][$sub]['subcategory_name'] = $categories[$i]['subcategory_name'];
-
-                $sub ++;
-                $last_category_id = $categories[$i]['category_id'];
-                $last_category_name = $categories[$i]['category_name'];
-            }
-            return $structure;
         } else {
-            $response['status'] = '400';
-            $response['message'] = 'section_id not sent or empty';
-            return $response;
+            $categories = Subcategories::find()->orderBy('category_id')->all();
         }
-//        $categories = Subcategories::find()->where(['section_id' => $section_id])->asArray()->groupBy('category_id')->all();
-//        for($i=0; $i<count($categories); $i++) {
-//            $structure[$categories[$i]['category_id']]['name'] = $categories[$i]['category_name'];
-//        }
-//
-//        $subcategories = Subcategories::find()->where(['section_id' => $section_id])->asArray()->orderBy('category_id')->all();
-//
-//        for($i=0; $i<count($subcategories); $i++) {
-//            $structure[$subcategories[$i]['category_id']]['subcategories'][$subcategories[$i]['subcategory_id']] = $subcategories[$i]['subcategory_name'];
-//        }
-//        for($i=0; $i<count($subcategories); $i++) {
-//            $categories[$subcategories[$i]['category_name']][] = $subcategories[$i]['subcategory_name'];
-//        }
-//        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-//        return $structure;
+        $rows = count($categories);
+        $ind = 0;
+        $sub = 0;
+        $last_category_id = 0;
+        $last_category_name = '';
+        for ($i = 0; $i < $rows; $i ++) {
+            if ($i == 0) {
+                $structure[$ind]['category_id'] = $categories[$i]['category_id'];
+                $structure[$ind]['category_name'] = $categories[$i]['category_name'];
+            } elseif ($last_category_id == $categories[$i]['category_id']) {
+                $structure[$ind]['category_id'] = $last_category_id;
+                $structure[$ind]['category_name'] = $last_category_name;
+            } else {
+                $ind ++;
+                $sub = 0;
+            }
+            $structure[$ind]['subcategories'][$sub]['subcategory_id'] = $categories[$i]['subcategory_id'];
+            $structure[$ind]['subcategories'][$sub]['subcategory_name'] = $categories[$i]['subcategory_name'];
 
+            $sub ++;
+            $last_category_id = $categories[$i]['category_id'];
+            $last_category_name = $categories[$i]['category_name'];
+        }
+        return $structure;
     }
 }
