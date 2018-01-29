@@ -3,13 +3,13 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->registerJsFile( '@web/material/js/plugins/forms/validation/validate.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/selects/bootstrap_multiselect.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/inputs/touchspin.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/selects/select2.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/switch.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/switchery.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/uniform.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
+$this->registerJsFile( '@web/material/js/plugins/notifications/sweet_alert.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/js/add-dealer.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
 ?>
@@ -48,7 +48,7 @@ $this->registerJsFile( '@web/js/add-dealer.js', ['depends' => [\yii\web\JqueryAs
         ?>
 
         <p class="content-group-lg">Добавьте нового дилера заполнив следующие данные.</p>
-        <form id="add-dealer-form" class="form-horizontal form-validate-jquery" method="POST" action="<?= URL::to(['administrator/add-dealer']) ?>" >
+        <form id="add-dealer-form" class="form-horizontal" method="POST" action="<?= URL::to(['administrator/add-dealer']) ?>" >
             <fieldset class="content-group">
 
                 <!-- csrf token -->
@@ -112,7 +112,7 @@ $this->registerJsFile( '@web/js/add-dealer.js', ['depends' => [\yii\web\JqueryAs
 
             <div class="text-right">
                 <button type="reset" class="btn btn-default" id="reset">Очистить форму <i class="icon-reload-alt position-right"></i></button>
-                <button id="apartment-submit" type="submit" class="btn btn-primary">Добавить<i class="icon-arrow-right14 position-right"></i></button>
+                <button id="add-dealer-submit" type="submit" class="btn btn-primary">Добавить<i class="icon-arrow-right14 position-right"></i></button>
             </div>
         </form>
     </div>

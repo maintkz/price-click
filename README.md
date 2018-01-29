@@ -196,3 +196,6 @@
   ## Структура всех категорий и подкатегорий
           url: /categories/all-sections
           method: GET
+  ## Структура категорий магазина
+          url: /categories/shop-categories?shop_id=4
+          method: GET

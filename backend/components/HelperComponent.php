@@ -13,7 +13,7 @@ class HelperComponent extends Component
      * @inheritdoc
      * gets data from db and converts it to valid datatables json
      */
-    public function getDataForDataTable($table, $assoc = FALSE)
+    public static function getDataForDataTable($table, $assoc = FALSE)
     {
         if(array_key_exists( 'join_tables',$table) && is_array($table['join_tables'])) {
             $join_query = '';

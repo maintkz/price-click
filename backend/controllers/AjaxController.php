@@ -9,12 +9,15 @@
 namespace backend\controllers;
 
 use backend\models\Categories;
+use backend\models\DealersInfo;
 use backend\models\ProductsList;
 use backend\models\AuthAssignment;
 use backend\components\HelperComponent;
+use backend\models\SignupForm;
 use Yii;
 use yii\web\Controller;
 use backend\models\Subcategories;
+use yii\web\Response;
 
 class AjaxController extends Controller
 {
@@ -29,6 +32,17 @@ class AjaxController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
+    }
+
+    /**
+     * @param \yii\base\Action $action
+     * @return bool
+     */
+    public function beforeAction($action)
+    {
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return parent::beforeAction($action);
     }
 
     /**
@@ -490,6 +504,36 @@ class AjaxController extends Controller
             }
         } else {
             return "У Вас нет доступа к данной операции.";
+        }
+    }
+
+
+    /*
+     *  New ajax requests
+     */
+    public function actionAddDealer()
+    {
+        if (Yii::$app->request->isAjax) {
+            $signupForm = new SignupForm();
+            $dealersInfo = new DealersInfo();
+            $signupForm->load(Yii::$app->request->post());
+            $dealersInfo->load(Yii::$app->request->post());
+            if (!$signupForm->validate()) {
+                $response['status_code'] = 400;
+                $response['message'] = 'Validating failed.';
+                $response['error'] = $signupForm->getErrors();
+                return $response;
+            } elseif (!$dealersInfo->validate()) {
+                $response['status_code'] = 400;
+                $response['message'] = 'Validating failed.';
+                $response['error'] = $dealersInfo->getErrors();
+                return $response;
+            } else {
+
+            }
+            return Yii::$app->request->post();
+        } else {
+            return ['message' => 'request must be an Ajax'];
         }
     }
 }

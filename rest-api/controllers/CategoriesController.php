@@ -42,4 +42,19 @@ class CategoriesController extends Controller
             return Functions::methodNotAllowedResponse('GET');
         }
     }
+
+    public function actionShopCategories()
+    {
+        if (Yii::$app->request->isGet) {
+            $shop_id = Yii::$app->request->get('shop_id');
+            settype($shop_id, 'INTEGER');
+            if (!empty($shop_id)) {
+                return Functions::prepareResponse(Functions::getShopCategoriesSubcategories($shop_id));
+            } else {
+                return Functions::missingParameter(['shop_id']);
+            }
+        } else {
+            return Functions::methodNotAllowedResponse('GET');
+        }
+    }
 }

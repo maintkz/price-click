@@ -171,6 +171,53 @@ class Functions
                 $ind ++;
                 $sub = 0;
             }
+            if ($rows - $i == 1) {
+                $structure[$ind]['category_id'] = $categories[$i]['category_id'];
+                $structure[$ind]['category_name'] = $categories[$i]['category_name'];
+            }
+            $structure[$ind]['subcategories'][$sub]['subcategory_id'] = $categories[$i]['subcategory_id'];
+            $structure[$ind]['subcategories'][$sub]['subcategory_name'] = $categories[$i]['subcategory_name'];
+
+            $sub ++;
+            $last_category_id = $categories[$i]['category_id'];
+            $last_category_name = $categories[$i]['category_name'];
+        }
+        return $structure;
+    }
+
+    public static function getShopCategoriesSubcategories($shop_id)
+    {
+        $shop_subcategories = ProductsList::find()
+            ->select('subcategory_id')
+            ->where(['shop_id' => $shop_id])
+            ->groupBy('subcategory_id')
+            ->all();
+
+        $categories = Subcategories::find()
+            ->where(['subcategory_id' => $shop_subcategories])
+            ->orderBy('subcategory_id')
+            ->all();
+
+        $rows = count($categories);
+        $ind = 0;
+        $sub = 0;
+        $last_category_id = 0;
+        $last_category_name = '';
+        for ($i = 0; $i < $rows; $i ++) {
+            if ($i == 0) {
+                $structure[$ind]['category_id'] = $categories[$i]['category_id'];
+                $structure[$ind]['category_name'] = $categories[$i]['category_name'];
+            } elseif ($last_category_id == $categories[$i]['category_id']) {
+                $structure[$ind]['category_id'] = $last_category_id;
+                $structure[$ind]['category_name'] = $last_category_name;
+            } else {
+                $ind ++;
+                $sub = 0;
+            }
+            if ($rows - $i == 1) {
+                $structure[$ind]['category_id'] = $categories[$i]['category_id'];
+                $structure[$ind]['category_name'] = $categories[$i]['category_name'];
+            }
             $structure[$ind]['subcategories'][$sub]['subcategory_id'] = $categories[$i]['subcategory_id'];
             $structure[$ind]['subcategories'][$sub]['subcategory_name'] = $categories[$i]['subcategory_name'];
 

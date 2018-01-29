@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use backend\models\DealersInfo;
 use backend\models\Sections;
 use backend\models\SignupForm;
 use backend\models\AuthAssignment;
@@ -101,10 +102,14 @@ class AdministratorController extends Controller
         if(Yii::$app->user->can('add-dealer')) {
             if(Yii::$app->request->isPost) {
                 $model = new SignupForm();
-                if ($model->load(Yii::$app->request->post())) {
+                $dealer_info = new DealersInfo();
+                if ($model->load(Yii::$app->request->post()) && $dealer_info->load(Yii::$app->request->post())) {
+                    if ($model->validate()) {
+
+                    }
                     if ($user = $model->signup()) {
                         $authModel = new AuthAssignment();
-                        if($authModel->authSave($user->id, 'dealer')) {
+                        if ($authModel->authSave($user->id, 'dealer')) {
                             return $this->render('add-dealer', ['success' => TRUE]);
                         } else {
                             return $this->render('add-dealer', ['success' => FALSE]);
