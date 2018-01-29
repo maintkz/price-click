@@ -46,7 +46,8 @@ class OrderedProductController extends Controller
                                 `shops`.`shop_id`,
                                 `shops`.`shop_name`,
                                 `orders`.`product_price`,
-                                `orders`.`product_parameter`'
+                                `orders`.`product_parameter`,
+                                `orders`.`product_count`'
                             )
                             ->innerJoin('products', '`orders`.`product_id` = `products`.`product_id`')
                             ->innerJoin('order_group', '`orders`.`order_group_id` = `order_group`.`id`')
