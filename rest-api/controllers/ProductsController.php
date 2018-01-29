@@ -9,6 +9,7 @@
 namespace api\controllers;
 
 use api\functions\Functions;
+use backend\models\Products;
 use backend\models\ProductsList;
 use Yii;
 use yii\web\Controller;
@@ -145,16 +146,41 @@ class ProductsController extends Controller
     {
         if (Yii::$app->request->isGet) {
             $query = Yii::$app->request->get('query');
-            if (!empty($query)) {
+            $city_id = Yii::$app->request->get('city_id');
+            $section_id = Yii::$app->request->get('section_id');
+            $subcategory_id = Yii::$app->request->get('subcategory_id');
+            settype($city_id, 'INTEGER');
+            settype($section_id, 'INTEGER');
+            settype($subcategory_id, 'INTEGER');
+
+            if (!empty($query) && !empty($section_id) && !empty($city_id)) {
                 $products = Functions::selectProduct()
                     ->where(['LIKE', '`products`.`product_name`', $query])
                     ->orWhere(['LIKE', '`products`.`product_description`', $query])
                     ->orWhere(['LIKE', '`products`.`product_price`', $query])
+                    ->andWhere(['`products_list`.`section_id`' => $section_id, '`products_list`.`city_id`' => $city_id])
                     ->all();
-                $products = Functions::prepareSerializedData($products);
                 return Functions::prepareResponse($products);
-            } else {
+            } elseif (!empty($query) && !empty($subcategory_id) && !empty($city_id)) {
+                $products = Functions::selectProduct()
+                    ->where(['LIKE', '`products`.`product_name`', $query])
+                    ->orWhere(['LIKE', '`products`.`product_description`', $query])
+                    ->orWhere(['LIKE', '`products`.`product_price`', $query])
+                    ->andWhere(['`products_list`.`subcategory_id`' => $subcategory_id, '`products_list`.`city_id`' => $city_id])
+                    ->all();
+                return Functions::prepareResponse($products);
+            } elseif (!empty($query) && !empty($city_id)) {
+                $products = Functions::selectProduct()
+                    ->where(['LIKE', '`products`.`product_name`', $query])
+                    ->orWhere(['LIKE', '`products`.`product_description`', $query])
+                    ->orWhere(['LIKE', '`products`.`product_price`', $query])
+                    ->andWhere(['`products_list`.`city_id`' => $city_id])
+                    ->all();
+                return Functions::prepareResponse($products);
+            } elseif (empty($query)) {
                 return Functions::missingParameter(['query']);
+            } elseif (empty($city_id)) {
+                return Functions::missingParameter(['city_id']);
             }
         } else {
             return Functions::methodNotAllowedResponse('GET');

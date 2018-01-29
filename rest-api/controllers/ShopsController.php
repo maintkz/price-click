@@ -206,16 +206,6 @@ class ShopsController extends Controller
             } elseif (empty($city_id)) {
                 return Functions::missingParameter(['city_id']);
             }
-
-            if (!empty($query)) {
-                $shops = Shops::find()
-                    ->where(['LIKE', 'shop_name', $query])
-                    ->asArray()
-                    ->all();
-                return Functions::prepareResponse($shops);
-            } else {
-                return Functions::missingParameter(['query']);
-            }
         } else {
             return Functions::methodNotAllowedResponse(['GET']);
         }

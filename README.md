@@ -179,8 +179,17 @@
           url: /shops/search?query=зомания&city_id=1
           method: GET
   ## Поиски по магазинам по разделам
-            url: /shops/search?query=зоомания&city_id=1&section_id=13
-            method: GET
+          url: /shops/search?query=зоомания&city_id=1&section_id=13
+          method: GET
   ## Поиски по магазинам по подкатегориям
-            url: /shops/search?query=букет&city_id=1&subcategory_id=24
-            method: GET
+          url: /shops/search?query=букет&city_id=1&subcategory_id=24
+          method: GET
+  ## Поиски продуктов во всех разделам
+          url: /products/search?query=суп&city_id=1
+          method: GET
+  ## Поиски продуктов по разделам
+          url: /products/search?query=будка&city_id=1&section_id=13
+          method: GET
+  ## Поиски продуктов по подкатегориям
+          url: /products/search?query=салат&city_id=1&subcategory_id=20
+          method: GET
