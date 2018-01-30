@@ -8,8 +8,8 @@ $this->registerJsFile( '@web/material/js/plugins/forms/selects/select2.min.js', 
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/switch.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/switchery.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/uniform.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/material/js/plugins/notifications/sweet_alert.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-//$this->registerJsFile( '@web/js/view-dealer.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
+
+$this->registerJsFile( '@web/js/view-dealer.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
 $this->title = "Информация о дилере";
 
@@ -40,6 +40,18 @@ $this->title = "Информация о дилере";
                     <tr>
                         <td>Статус</td>
                         <td><span class="text-bold"><?php Yii::$app->helperComponent->toHtmlStatus($dealer->status); ?></td>
+                    </tr>
+                    <tr>
+                        <td>Телефон</td>
+                        <td><span class="text-bold"><?= $dealer->user->email; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Адрес</td>
+                        <td><span class="text-bold"><?= $dealer->user->email; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Описание</td>
+                        <td><span class="text-bold"><?= $dealer->user->email; ?></td>
                     </tr>
                     <tr>
                         <td>Магазины</td>

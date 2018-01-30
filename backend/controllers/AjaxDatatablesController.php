@@ -22,6 +22,11 @@ class AjaxDatatablesController extends Controller
         return parent::beforeAction($action);
     }
 
+    /*
+     * Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers
+     * Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers
+     * Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers Dealers
+     */
     public function actionDealersList()
     {
         $dealers = AuthAssignment::find()
@@ -35,5 +40,23 @@ class AjaxDatatablesController extends Controller
         $data = array_map('array_values', $dealers);
         return $data;
     }
+
+    public function actionViewDealer()
+    {
+        $dealer = AuthAssignment::find()
+            ->select('`auth_assignment`.`user_id`, `user`.`username`, `user`.`email`, `dealers_info`.`phone`, `auth_assignment`.`status`')
+            ->where(['user_id' => '1']) // asdasd
+            ->innerJoin('user', '`user`.`id` = `auth_assignment`.`user_id`')
+            ->innerJoin('dealers_info', '`dealers_info`.`user_id` = `auth_assignment`.`user_id`')
+            ->asArray()
+            ->all();
+
+        $data = array_map('array_values', $dealer);
+    }
+    /*
+     * Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends
+     * Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends
+     * Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends Dealers ends
+     */
 
 }

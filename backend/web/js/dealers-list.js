@@ -45,7 +45,6 @@ function prepareDataForTable (data, status) {
         } else if (item[status] == 0) {
             item[status] = "<span class='label label-default'>Неактивный</span>";
         }
-        item[status]
-        item.push("<a href='#' class='view-dealer-button' data-dealer-id='" + item[0] + "'><i class='icon-eye'></i></a><a href='/admin/administrator/edit-dealer/" + item[0] + "' class='edit-dealer-button'><i class='icon-pencil4'></i></a><a href='#' class='delete-dealer-button' data-dealer-id='" + item[0] + "'><i class='icon-cross2'></i></a>");
+        item.push("<a href='/admin/administrator/view-dealer/" + item[0] + "' class='view-dealer-button' data-dealer-id='" + item[0] + "'><i class='icon-eye'></i></a><a href='/admin/administrator/edit-dealer/" + item[0] + "' class='edit-dealer-button'><i class='icon-pencil4'></i></a><a href='#' class='delete-dealer-button' data-dealer-id='" + item[0] + "'><i class='icon-cross2'></i></a>");
     });
 }

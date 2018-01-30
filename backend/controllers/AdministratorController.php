@@ -61,7 +61,8 @@ class AdministratorController extends Controller
         if(Yii::$app->user->can('view-dealer')) {
             $dealer = AuthAssignment::find()
                 ->innerJoin('user', '`auth_assignment`.`user_id` = `user`.`id`')
-                ->where(['user_id' => $id])
+                ->innerJoin('dealers_info', '`dealers_info`.`user_id` = `auth_assignment`.`user_id`')
+                ->where(['`auth_assignment`.`user_id`' => $id])
                 ->one();
             return $this->render('view-dealer', ['dealer' => $dealer]);
         }
@@ -140,10 +141,10 @@ class AdministratorController extends Controller
     }
 
     /**
- * Displays display
- *
- *
- */
+     * Displays display
+     *
+     *
+     */
     public function actionDealerPermissions()
     {
         if(Yii::$app->user->can('grant-permission-to-dealer')) {

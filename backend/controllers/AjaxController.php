@@ -477,9 +477,14 @@ class AjaxController extends Controller
             $data = Yii::$app->request->post('data');
             if(isset($data) && !empty($data)) {
                 if($data['name'] == 'section') {
-                    $query = "DELETE FROM `sections` WHERE `section_id` = '" . $data['section_id'] . "'";
+                    $query = "DELETE FROM `sections` WHERE `section_id` = '" . $data['section_id'] . "';";
+                    $query .= "DELETE FROM `categories` WHERE `section_id` = '" . $data['section_id'] . "';";
+                    $query .= "DELETE FROM `subcategories` WHERE `section_id` = '" . $data['section_id'] . "';";
+                    $query .= "DELETE FROM `products_list` WHERE `section_id` = '" . $data['section_id'] . "';";
                 } elseif($data['name'] == 'category') {
-                    $query = "DELETE FROM `categories` WHERE `category_id` = '" . $data['category_id'] . "'";
+                    $query = "DELETE FROM `categories` WHERE `category_id` = '" . $data['category_id'] . "';";
+                    $query .= "DELETE FROM `subcategories` WHERE `category_id` = '" . $data['category_id'] . "';";
+                    $query .= "DELETE FROM `products_list` WHERE `category_id` = '" . $data['category_id'] . "';";
                 } elseif($data['name'] == 'subcategory') {
                     $query = "DELETE FROM `subcategories` WHERE `subcategory_id` = '" . $data['subcategory_id'] . "';";
                     $query .= "DELETE FROM `products_list` WHERE `subcategory_id` = '" . $data['subcategory_id'] . "';";
