@@ -33,7 +33,6 @@ class HelperComponent extends Component
 
         $connection = Yii::$app->getDb();
         $command = $connection->createCommand($query);
-
         $result = $command->queryAll();
 
         if(!$assoc) {

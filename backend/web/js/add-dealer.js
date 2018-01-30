@@ -38,8 +38,6 @@ $(function() {
         fileButtonClass: 'action btn bg-blue'
     });
 
-
-
     // Submit form
     $('#add-dealer-submit').on('click', function (e) {
         e.preventDefault();
@@ -86,7 +84,7 @@ $(function() {
                         confirmButtonColor: "#66BB6A",
                         type: "success"
                     }, function() {
-                        document.location.reload();
+                        window.location.href = '/admin/administrator/dealers-list';
                     });
                 }
             }
@@ -94,7 +92,6 @@ $(function() {
             console.log(xhr.responseText);
         });
     });
-
 
     // Reset form
     $('#reset').on('click', function() {

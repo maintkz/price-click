@@ -516,6 +516,7 @@ class AjaxController extends Controller
         if (Yii::$app->request->isAjax) {
             $signupForm = new SignupForm();
             $dealersInfo = new DealersInfo();
+            $authAssignment = new AuthAssignment();
             $signupForm->load(Yii::$app->request->post());
             $dealersInfo->load(Yii::$app->request->post());
             if (!$signupForm->validate()) {
@@ -533,7 +534,7 @@ class AjaxController extends Controller
             } else {
                 if ($user = $signupForm->signup()) {
                     $dealersInfo->user_id = $user->id;
-                    if ($dealersInfo->save()) {
+                    if ($dealersInfo->save() && $authAssignment->authSave($user->id, 'dealer')) {
                         $response['status_code'] = 201;
                         $response['message'] = 'Success';
                         return $response;
