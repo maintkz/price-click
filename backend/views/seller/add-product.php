@@ -80,6 +80,18 @@ $this->title = "Добавление товара";
                 </div>
                 <!-- /Subcategory -->
 
+                <!-- City -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Город:</label>
+                    <div class="col-lg-9">
+                        <div class="input-group" style="width:100%">
+                            <select id="cities"  name="ProductsList[city_id]" class="bootstrap-select" data-width="100%">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /city -->
+
                 <!-- Product name -->
                 <div class="form-group">
                     <label class="control-label col-lg-3">Наименование <span class="text-danger">*</span></label>

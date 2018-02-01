@@ -350,60 +350,55 @@ $(function() {
 /* -------------------------------------------------------------------- */
 /* ajax loading sections, categories, subcategories */
 /* -------------------------------------------------------------------- */
-var productCategoryHtml = "<!-- Category -->" +
-    "                <div class=\"form-group\">" +
-    "                    <label class=\"control-label col-lg-3\">Категория</label>" +
-    "                    <div class=\"col-lg-9\">" +
-    "                        <div class=\"input-group\" style=\"width:100%\">" +
-    "                            <select id=\"product-category\" name=\"ProductsList[category_id]\" class=\"bootstrap-select\" data-width=\"100%\">" +
-    "                            </select>" +
-    "                        </div>" +
-    "                    </div>" +
-    "                </div>" +
-    "                <!-- /Category -->";
-var productSubcategoryHtml = "<!-- Subcategory -->" +
-    "                <div class=\"form-group\">" +
-    "                    <label class=\"control-label col-lg-3\">Подкатегория</label>" +
-    "                    <div class=\"col-lg-9\">" +
-    "                        <div class=\"input-group\" style=\"width:100%\">" +
-    "                            <select id=\"product-subcategory\"  name=\"ProductsList[subcategory_id]\" class=\"bootstrap-select\" data-width=\"100%\">" +
-    "                            </select>" +
-    "                        </div>" +
-    "                    </div>" +
-    "                </div>" +
-    "                <!-- /Subcategory -->";
 
 $('document').ready(function() {
     var csrf = $('[name="_csrf-backend"]').val();
     var structure = {};
     var selectedSectionId;
     var selectedCategoryId;
-        $.ajax({
+    $.ajax({
+    type: 'POST',
+    url: '/admin/ajax/get-categories-structure',
+    data: {
+        "_csrf-backend": csrf
+    },
+    success: function(response){
+        console.log(response);
+        structure = response;
+        var i = 0;
+        $.each(response, function(index, value) {
+            if(i == 0) firstSectionId = index; i++;
+            $('#product-section').append("<option value='" + index + "'>" + value.section_name + "</option>");
+        });
+        $('#product-section').selectpicker('refresh');
+
+        i = 0;
+        console.log(structure);
+        $.each(structure[ firstSectionId ].categories, function(index, value) {
+            if(i == 0) firstCategoryId = index; i++;
+            $('#product-category').append("<option value='" + index + "'>" + value.category_name + "</option>").selectpicker('refresh');
+        });
+
+        $.each(structure[ firstSectionId ].categories[ firstCategoryId ].subcategories, function(index, value) {
+            $('#product-subcategory').append("<option value='" + index + "'>" + value + "</option>").selectpicker('refresh');
+        });
+    }
+    }).fail(function (xhr, textStatus, errorThrown) {
+        console.log(xhr.responseText);
+    });
+
+    $.ajax({
         type: 'POST',
-        url: '/admin/ajax/get-categories-structure',
+        url: '/admin/ajax/get-cities',
         data: {
             "_csrf-backend": csrf
         },
         success: function(response){
             console.log(response);
-            structure = response;
-            var i = 0;
             $.each(response, function(index, value) {
-                if(i == 0) firstSectionId = index; i++;
-                $('#product-section').append("<option value='" + index + "'>" + value.section_name + "</option>");
+                $('#cities').append("<option value='" + response.city_id + "'>" + value.city_name + "</option>");
             });
-            $('#product-section').selectpicker('refresh');
-
-            i = 0;
-            console.log(structure);
-            $.each(structure[ firstSectionId ].categories, function(index, value) {
-                if(i == 0) firstCategoryId = index; i++;
-                $('#product-category').append("<option value='" + index + "'>" + value.category_name + "</option>").selectpicker('refresh');
-            });
-
-            $.each(structure[ firstSectionId ].categories[ firstCategoryId ].subcategories, function(index, value) {
-                $('#product-subcategory').append("<option value='" + index + "'>" + value + "</option>").selectpicker('refresh');
-            });
+            $('#cities').selectpicker('refresh');
         }
     }).fail(function (xhr, textStatus, errorThrown) {
         console.log(xhr.responseText);
