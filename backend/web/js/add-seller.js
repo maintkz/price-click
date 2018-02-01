@@ -1,48 +1,40 @@
 $(function() {
-    // Form components
-    // ------------------------------
 
-    // Switchery toggles
-    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-    elems.forEach(function(html) {
-        var switchery = new Switchery(html);
+    /* ----------------------------- */
+    /* ajax for populate city select */
+    /* ----------------------------- */
+    $.ajax({
+        type: 'POST',
+        url: '/admin/ajax/get-cities',
+        success: function (cities) {
+            console.log(cities);
+            var length = cities.length;
+            var i;
+            var options = '';
+            for (i = 0; i < length; i ++) {
+                options += '<option value="' + cities[i].city_id + '">' + cities[i].city_name + '</option>';
+            }
+            $('#cities').html(options);
+            $('#cities').selectpicker();
+        }
+    }).fail(function (xhr, textStatus, errorThrown) {
+        console.log(xhr.responseText);
     });
+    /* ----------------------------- */
+    /* ----------------------------- */
+    /* ----------------------------- */
 
-    // Bootstrap switch
-    $(".switch").bootstrapSwitch();
 
-    // Bootstrap multiselect
-    $('.multiselect').multiselect({
-        checkboxName: 'vali'
-    });
-
-    // Touchspin
-    $(".touchspin-postfix").TouchSpin({
-        min: 0,
-        max: 100,
-        step: 0.1,
-        decimals: 2,
-        postfix: '%'
-    });
-
-    // Select2 select
-    $('.select').select2({
-        minimumResultsForSearch: Infinity
-    });
-
-    // Styled checkboxes, radios
-    $(".styled, .multiselect-container input").uniform({ radioClass: 'choice' });
-
-    // Styled file input
-    $(".file-styled").uniform({
-        fileButtonClass: 'action btn bg-blue'
-    });
-
-    // Submit form
-    $('#add-dealer-submit').on('click', function (e) {
+    /* ----------------------------- */
+    /*     ajax for adding seller    */
+    /* ----------------------------- */
+    $('#add-seller-button').on('click', function (e) {
         e.preventDefault();
-        var form = document.getElementById('add-dealer-form');
+        var form = document.getElementById('add-seller-form');
         var formData = new FormData(form);
+        // for (var pair of formData.entries()) {
+        //     console.log(pair[0]+ ', ' + pair[1]);
+        // }
         $.ajax({
             beforeSend: function() {
                 swal({
@@ -56,7 +48,7 @@ $(function() {
                 });
             },
             type: 'POST',
-            url: '/admin/ajax/add-dealer',
+            url: '/admin/ajax/add-seller',
             contentType: false,
             processData: false,
             data: formData,
@@ -85,22 +77,17 @@ $(function() {
                     });
                 } else if (response.status_code == 201) {
                     swal({
-                        title: "Дилер добавлен!",
+                        title: "Продавец добавлен!",
                         confirmButtonColor: "#66BB6A",
                         type: "success"
                     }, function() {
-                        window.location.href = '/admin/administrator/dealers-list';
+                        window.location.href = '/admin/dealer/sellers-list';
                     });
                 }
             }
         }).fail(function (xhr, textStatus, errorThrown) {
             console.log(xhr.responseText);
         });
-    });
-
-    // Reset form
-    $('#reset').on('click', function() {
-
     });
 
 });

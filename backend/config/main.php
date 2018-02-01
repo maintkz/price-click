@@ -51,8 +51,13 @@ return [
                 'seller/edit-product/<product_list_id:[\d]+>' => 'seller/edit-product',
                 'administrator/edit-dealer/<id:[\d]+>' => 'administrator/edit-dealer',
                 'administrator/view-dealer/<id:[\d]+>' => 'administrator/view-dealer',
+                'administrator/dealer-shops/<id:[\d]+>' => 'administrator/dealer-shops',
                 'dealer/view-seller/<id:[\d]+>' => 'dealer/view-seller',
                 'dealer/edit-seller/<id:[\d]+>' => 'dealer/edit-seller',
+                'statistics/dealer/<id:[\d]+>' => 'statistics/dealer',
+                'statistics/seller/<id:[\d]+>' => 'statistics/seller',
+                'statistics/order/<id:[\d]+>' => 'statistics/order',
+                'statistics/customer/<id:[\d]+>' => 'statistics/customer',
             ],
         ],
         'assetManager' => [

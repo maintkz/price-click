@@ -1,54 +1,23 @@
 <?php
 
-use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->registerJsFile( '@web/material/js/plugins/forms/validation/validate.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/material/js/plugins/forms/selects/bootstrap_multiselect.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/material/js/plugins/forms/inputs/touchspin.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/material/js/plugins/forms/selects/select2.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/material/js/plugins/forms/styling/switch.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/material/js/plugins/forms/styling/switchery.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/material/js/plugins/forms/styling/uniform.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
-$this->registerJsFile( '@web/js/add-dealer.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
+$this->registerJsFile( '@web/material/js/plugins/notifications/sweet_alert.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
+$this->registerJsFile( '@web/material/js/plugins/forms/selects/bootstrap_select.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
+$this->registerJsFile( '@web/js/add-seller.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 ?>
 
 <!-- Form validation -->
 <div class="panel panel-flat">
     <div class="panel-heading">
         <h5 class="panel-title">Добавление нового продавца</h5>
-        <div class="heading-elements">
-            <ul class="icons-list">
-                <li><a data-action="collapse"></a></li>
-                <li><a data-action="reload"></a></li>
-                <li><a data-action="close"></a></li>
-            </ul>
-        </div>
     </div>
 
     <div class="panel-body">
 
-        <?php
-            if(isset($success) && $success) {
-        ?>
-                <div class="alert alert-success no-border">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">Продавец успешно добавлен.</span> <a href="#" class="alert-link">Посмотреть</a>.
-                </div>
-        <?php
-            } elseif(isset($error) && !$success) {
-        ?>
-                <div class="alert alert-danger no-border">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-                    <span class="text-semibold">При добавлении продавца произошла ошибка</span>. Попробуйте еще раз.
-                </div>
-        <?php
-            }
-        ?>
-
         <p class="content-group-lg">Добавьте нового продавца заполнив следующие данные.</p>
-        <form id="add-dealer-form" class="form-horizontal form-validate-jquery" method="POST" action="<?= URL::to(['dealer/add-seller']) ?>" >
+        <form id="add-seller-form" class="form-horizontal" method="POST" action="" >
             <fieldset class="content-group">
 
                 <!-- csrf token -->
@@ -81,11 +50,70 @@ $this->registerJsFile( '@web/js/add-dealer.js', ['depends' => [\yii\web\JqueryAs
                 </div>
                 <!-- /password field -->
 
+                <!-- City -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Город<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <div class="input-group">
+                            <select name="AuthAssignment[city_id]" id="cities" class="bootstrap-select" data-width="100%">
+<!--                                <option value="color">Цвет</option>-->
+<!--                                <option value="size">Размер</option>-->
+<!--                                <option value="custom">Свой</option>-->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /City -->
+
+                <!-- Address input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Адрес<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <input type="text" name="SellersInfo[address]" class="form-control" placeholder="Введите адрес">
+                    </div>
+                </div>
+                <!-- /address input -->
+
+                <!-- Phone input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Телефон<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <input type="text" name="SellersInfo[phone]" class="form-control" placeholder="Введите телефон">
+                    </div>
+                </div>
+                <!-- /phone input -->
+
+                <!-- Description input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Описание</label>
+                    <div class="col-lg-9">
+                        <textarea rows="5" cols="5" name="SellersInfo[description]" class="form-control" placeholder="Введите описание"></textarea>
+                    </div>
+                </div>
+                <!-- /description input -->
+
+                <!-- Income percent input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Процент монетизации<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <input type="text" name="SellersInfo[income_percent]" class="form-control" placeholder="Процент монетизации">
+                    </div>
+                </div>
+                <!-- /income percent input -->
+
+                <!-- Income percent input -->
+                <div class="form-group">
+                    <label class="control-label col-lg-3">Ответственное лицо<span class="text-danger">*</span></label>
+                    <div class="col-lg-9">
+                        <input type="text" name="SellersInfo[responsible]" class="form-control" required="required" placeholder="Ответственное лицо">
+                    </div>
+                </div>
+                <!-- /income percent input -->
+
             </fieldset>
 
             <div class="text-right">
-                <button type="reset" class="btn btn-default" id="reset">Очистить форму <i class="icon-reload-alt position-right"></i></button>
-                <button id="apartment-submit" type="submit" class="btn btn-primary">Добавить<i class="icon-arrow-right14 position-right"></i></button>
+                <button id="add-seller-button" type="submit" class="btn btn-primary">Добавить<i class="icon-arrow-right14 position-right"></i></button>
             </div>
         </form>
     </div>

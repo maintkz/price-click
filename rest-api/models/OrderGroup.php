@@ -2,7 +2,11 @@
 
 namespace api\models;
 
+use backend\models\SellersInfo;
+use backend\models\Shops;
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "order_group".
@@ -26,6 +30,18 @@ class OrderGroup extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'order_group';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_date',
+                'updatedAtAttribute' => 'updated_date',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
     }
 
     /**
@@ -68,5 +84,72 @@ class OrderGroup extends \yii\db\ActiveRecord
         } else {
             return FALSE;
         }
+    }
+
+    public static function getDealersOverallSum($id)
+    {
+        $shops = SellersInfo::getShopIdsOfDealer($id);
+
+        if (!$shops) {
+            return 0;
+        }
+
+        $overall_summ = static::find()
+            ->select('overall_summ')
+            ->where(['shop_id' => $shops])
+            ->asArray()
+            ->all();
+
+        for ($i = 0; $i < count($overall_summ); $i ++) {
+            $overall_summ[$i] = $overall_summ[$i]['overall_summ'];
+        }
+
+        if (!$overall_summ) {
+            return 0;
+        }
+
+        $overall_summ = array_sum($overall_summ);
+
+        return $overall_summ;
+    }
+
+    public static function getSellersOverallSum($id)
+    {
+        $shop = Shops::getShopIdByUserId($id);
+
+        if (!$shop) {
+            return 0;
+        }
+
+        $overall_summ = static::find()
+            ->select('overall_summ')
+            ->where(['shop_id' => $shop])
+            ->asArray()
+            ->all();
+
+        for ($i = 0; $i < count($overall_summ); $i ++) {
+            $overall_summ[$i] = $overall_summ[$i]['overall_summ'];
+        }
+
+        if (!$overall_summ) {
+            return 0;
+        }
+
+        $overall_summ = array_sum($overall_summ);
+
+        return $overall_summ;
+    }
+
+    public static function getOrdersCount($seller_id)
+    {
+        $shop_id = Shops::getShopIdByUserId($seller_id);
+        if ($shop_id) {
+            $orders_count = OrderGroup::find()
+                ->where(['shop_id' => $shop_id])
+                ->count();
+        } else {
+            $orders_count = 0;
+        }
+        return $orders_count;
     }
 }

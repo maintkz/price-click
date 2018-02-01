@@ -21,7 +21,7 @@ $('document').ready(function () {
         url: '/admin/ajax-datatables/dealers-list',
         success: function(data) {
             prepareDataForTable(data, 4);
-            $('.products-list-datatable').dataTable({
+            $('.dealers-list-datatable').dataTable({
                 data: data,
                 columns: [
                     { title: "id" },

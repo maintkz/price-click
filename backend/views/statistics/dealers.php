@@ -13,10 +13,10 @@ $this->registerJsFile( '@web/material/js/plugins/forms/styling/switch.min.js', [
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/switchery.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
 // custom js file for this page
-$this->registerJsFile( '@web/js/dealers-list.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
+$this->registerJsFile( '@web/js/dealers-statistics.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
 // title
-$this->title = "Список дилеров";
+$this->title = "Статистика по дилерам";
 ?>
 
 <!-- Form validation -->

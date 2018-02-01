@@ -66,6 +66,7 @@ class OrderController extends Controller
                 $order_group->count = count($products);
                 $order_group->overall_summ = $overall_summ;
                 $order_group->status = Orders::STATUS_ORDERED;
+                $order_group->updated_date =
                 $order_group->shop_id = ProductsList::getShopByProductId($orders[0]->product_id);
                 if($order_group->validate()) {
                     if($order_group->save()) {

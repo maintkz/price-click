@@ -9,10 +9,12 @@
 namespace backend\controllers;
 
 use backend\models\Categories;
+use backend\models\Cities;
 use backend\models\DealersInfo;
 use backend\models\ProductsList;
 use backend\models\AuthAssignment;
 use backend\components\HelperComponent;
+use backend\models\SellersInfo;
 use backend\models\SignupForm;
 use Yii;
 use yii\web\Controller;
@@ -519,43 +521,115 @@ class AjaxController extends Controller
     public function actionAddDealer()
     {
         if (Yii::$app->request->isAjax) {
-            $signupForm = new SignupForm();
-            $dealersInfo = new DealersInfo();
-            $authAssignment = new AuthAssignment();
-            $signupForm->load(Yii::$app->request->post());
-            $dealersInfo->load(Yii::$app->request->post());
-            if (!$signupForm->validate()) {
-                $response['status_code'] = 400;
-                $response['message'] = 'Validating failed.';
-                $response['target'] = 'SignupForm';
-                $response['error'] = $signupForm->getErrors();
-                return $response;
-            } elseif (!$dealersInfo->validate()) {
-                $response['status_code'] = 400;
-                $response['message'] = 'Validating failed.';
-                $response['target'] = 'DealersInfo';
-                $response['error'] = $dealersInfo->getErrors();
-                return $response;
-            } else {
-                if ($user = $signupForm->signup()) {
-                    $dealersInfo->user_id = $user->id;
-                    if ($dealersInfo->save() && $authAssignment->authSave($user->id, 'dealer')) {
-                        $response['status_code'] = 201;
-                        $response['message'] = 'Success';
-                        return $response;
+            if (Yii::$app->user->can('add-dealer')) {
+                $signupForm = new SignupForm();
+                $dealersInfo = new DealersInfo();
+                $authAssignment = new AuthAssignment();
+                $signupForm->load(Yii::$app->request->post());
+                $dealersInfo->load(Yii::$app->request->post());
+                if (!$signupForm->validate()) {
+                    $response['status_code'] = 400;
+                    $response['message'] = 'Validating failed.';
+                    $response['target'] = 'SignupForm';
+                    $response['error'] = $signupForm->getErrors();
+                    return $response;
+                } elseif (!$dealersInfo->validate()) {
+                    $response['status_code'] = 400;
+                    $response['message'] = 'Validating failed.';
+                    $response['target'] = 'DealersInfo';
+                    $response['error'] = $dealersInfo->getErrors();
+                    return $response;
+                } else {
+                    if ($user = $signupForm->signup()) {
+                        $dealersInfo->user_id = $user->id;
+                        if ($dealersInfo->save() && $authAssignment->authSave($user->id, 'dealer')) {
+                            $response['status_code'] = 201;
+                            $response['message'] = 'Success';
+                            return $response;
+                        } else {
+                            $response['status_code'] = 500;
+                            $response['message'] = 'Save failed';
+                            $response['error'] = $dealersInfo->getErrors();
+                            return $response;
+                        }
                     } else {
                         $response['status_code'] = 500;
                         $response['message'] = 'Save failed';
-                        $response['error'] = $dealersInfo->getErrors();
+                        $response['error'] = $signupForm->getErrors();
                         return $response;
                     }
-                } else {
-                    $response['status_code'] = 500;
-                    $response['message'] = 'Save failed';
+                }
+            } else {
+                $response['status_code'] = 403;
+                $response['message'] = 'У вас нету прав для регистрации дилера';
+                return $response;
+            }
+        } else {
+            $response['status_code'] = 405;
+            $response['message'] = 'Request must be an Ajax';
+            return $response;
+        }
+    }
+
+    public function actionAddSeller()
+    {
+        if (Yii::$app->request->isAjax) {
+            if (Yii::$app->user->can('add-seller')) {
+                $signupForm = new SignupForm();
+                $sellersInfo = new SellersInfo();
+                $authAssignment = new AuthAssignment();
+                $signupForm->load(Yii::$app->request->post());
+                $sellersInfo->load(Yii::$app->request->post());
+                $authAssignment->load(Yii::$app->request->post());
+                if (!$signupForm->validate()) {
+                    $response['status_code'] = 400;
+                    $response['message'] = 'Validating failed.';
+                    $response['target'] = 'SignupForm';
                     $response['error'] = $signupForm->getErrors();
                     return $response;
+                } elseif (!$sellersInfo->validate()) {
+                    $response['status_code'] = 400;
+                    $response['message'] = 'Validating failed.';
+                    $response['target'] = 'SellersInfo';
+                    $response['error'] = $sellersInfo->getErrors();
+                    return $response;
+                } else {
+                    if ($user = $signupForm->signup()) {
+                        $sellersInfo->user_id = $user->id;
+                        $sellersInfo->created_user_id = Yii::$app->user->identity->id;
+                        if ($sellersInfo->save() && $authAssignment->authSave($user->id, 'seller')) {
+                            $response['status_code'] = 201;
+                            $response['message'] = 'Success';
+                            return $response;
+                        } else {
+                            $response['status_code'] = 500;
+                            $response['message'] = 'Save failed';
+                            $response['error'] = $sellersInfo->getErrors();
+                            return $response;
+                        }
+                    } else {
+                        $response['status_code'] = 500;
+                        $response['message'] = 'Save failed';
+                        $response['error'] = $signupForm->getErrors();
+                        return $response;
+                    }
                 }
+            } else {
+                $response['status_code'] = 403;
+                $response['message'] = 'У вас нету прав для регистрации дилера';
+                return $response;
             }
+        } else {
+            $response['status_code'] = 405;
+            $response['message'] = 'Request must be an Ajax';
+            return $response;
+        }
+    }
+
+    public function actionGetCities() {
+        if (Yii::$app->request->isAjax) {
+            $cities = Cities::find()->all();
+            return $cities;
         } else {
             $response['status_code'] = 405;
             $response['message'] = 'Request must be an Ajax';

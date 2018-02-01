@@ -13,13 +13,12 @@ $this->registerJsFile( '@web/material/js/plugins/forms/styling/switch.min.js', [
 $this->registerJsFile( '@web/material/js/plugins/forms/styling/switchery.min.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
 // custom js file for this page
-$this->registerJsFile( '@web/js/dealers-list.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
+$this->registerJsFile( '@web/js/customers-statistics.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
 // title
-$this->title = "Список дилеров";
+$this->title = "Статистика по покупателям";
 ?>
 
-<!-- Form validation -->
 <div class="panel panel-flat">
     <div class="panel-heading">
         <h5 class="panel-title"><?= $this->title ?></h5>
@@ -27,10 +26,9 @@ $this->title = "Список дилеров";
 
     <div class="panel-body">
 
-        <table class="table dealers-list-datatable">
+        <table class="table customers-list-datatable">
         </table>
 
     </div>
 
 </div>
-<!-- /form validation -->

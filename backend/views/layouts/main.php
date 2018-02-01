@@ -202,9 +202,9 @@ $this->registerJsFile(
                                 <a href="#"><i class="icon-stats-dots" title="Статистика"></i>
                                     <span>Статистика</span></a>
                                 <ul>
-                                    <li><a href="#">...</a></li>
-                                    <li><a href="#">...</a></li>
-                                    <li><a href="#">...</a></li>
+                                    <li><a href="<?= Url::to(['statistics/dealers']); ?>">Статистика по дилерам</a></li>
+                                    <li><a href="<?= Url::to(['statistics/sellers']); ?>">Статистика по магазинам</a></li>
+                                    <li><a href="<?= Url::to(['statistics/customers']); ?>">Статистика по покупателям</a></li>
                                 </ul>
                             </li>
 

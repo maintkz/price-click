@@ -245,4 +245,24 @@ class HelperComponent extends Component
     {
         return array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id))[0];
     }
+
+    public function isAdmin()
+    {
+        $role = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id))[0];
+        if ($role = 'admin') {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function onLevelBefore($array, $string)
+    {
+        $count = count($array);
+        for ($i = 0; $i < $count; $i ++) {
+            $array[$i] = $array[$i][$string];
+        }
+        return $array;
+    }
+
 }

@@ -25,7 +25,7 @@ $this->registerJsFile( '@web/material/js/plugins/notifications/sweet_alert.min.j
 $this->registerJsFile( '@web/js/sellers-list.js', ['depends' => [\yii\web\JqueryAsset::className()]] );
 
 // title
-$this->title = "Список всех товаров";
+$this->title = "Список всех продавцов";
 ?>
 
 <!-- Form validation -->

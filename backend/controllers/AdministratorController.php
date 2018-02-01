@@ -52,19 +52,76 @@ class AdministratorController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays asd.
      *
+     * @param $id
      * @return string
+     * @throws ForbiddenHttpException
      */
     public function actionViewDealer($id)
     {
         if(Yii::$app->user->can('view-dealer')) {
-            $dealer = AuthAssignment::find()
-                ->innerJoin('user', '`auth_assignment`.`user_id` = `user`.`id`')
-                ->innerJoin('dealers_info', '`dealers_info`.`user_id` = `auth_assignment`.`user_id`')
-                ->where(['`auth_assignment`.`user_id`' => $id])
-                ->one();
-            return $this->render('view-dealer', ['dealer' => $dealer]);
+            $userRole = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id))[0];
+
+            if ($userRole == 'admin') {
+                $dealer = AuthAssignment::find()
+                    ->select('
+                    `auth_assignment`.`user_id`,
+                    `user`.`username`,
+                    `user`.`email`,
+                    `auth_assignment`.`status`,
+                    `dealers_info`.`phone`,
+                    `dealers_info`.`address`,
+                    `dealers_info`.`description`
+                    ')
+                    ->innerJoin('user', '`auth_assignment`.`user_id` = `user`.`id`')
+                    ->innerJoin('dealers_info', '`auth_assignment`.`user_id` = `dealers_info`.`user_id`')
+                    ->asArray()
+                    ->where(['`auth_assignment`.`user_id`' => $id])
+                    ->one();
+                return $this->render('view-dealer', ['dealer' => $dealer]);
+            } else {
+                throw new ForbiddenHttpException('Доступ запрещен');
+            }
+        } else {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+    }
+
+    /**
+     * Displays asd.
+     *
+     * @param $id
+     * @return string
+     * @throws ForbiddenHttpException
+     */
+    public function actionDealerShops($id)
+    {
+        if(Yii::$app->user->can('view-dealer')) {
+            $userRole = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id))[0];
+
+            if ($userRole == 'admin') {
+                $dealer = AuthAssignment::find()
+                    ->select('
+                    `auth_assignment`.`user_id`,
+                    `user`.`username`,
+                    `user`.`email`,
+                    `auth_assignment`.`status`,
+                    `dealers_info`.`phone`,
+                    `dealers_info`.`address`,
+                    `dealers_info`.`description`
+                    ')
+                    ->innerJoin('user', '`auth_assignment`.`user_id` = `user`.`id`')
+                    ->innerJoin('dealers_info', '`auth_assignment`.`user_id` = `dealers_info`.`user_id`')
+                    ->asArray()
+                    ->where(['`auth_assignment`.`user_id`' => $id])
+                    ->one();
+                return $this->render('view-dealer', ['dealer' => $dealer]);
+            } else {
+                throw new ForbiddenHttpException('Доступ запрещен');
+            }
+        } else {
+            throw new ForbiddenHttpException('Доступ запрещен');
         }
     }
 
@@ -101,23 +158,6 @@ class AdministratorController extends Controller
     public function actionAddDealer()
     {
         if(Yii::$app->user->can('add-dealer')) {
-            if(Yii::$app->request->isPost) {
-                $model = new SignupForm();
-                $dealer_info = new DealersInfo();
-                if ($model->load(Yii::$app->request->post()) && $dealer_info->load(Yii::$app->request->post())) {
-                    if ($model->validate()) {
-
-                    }
-                    if ($user = $model->signup()) {
-                        $authModel = new AuthAssignment();
-                        if ($authModel->authSave($user->id, 'dealer')) {
-                            return $this->render('add-dealer', ['success' => TRUE]);
-                        } else {
-                            return $this->render('add-dealer', ['success' => FALSE]);
-                        }
-                    }
-                }
-            }
             return $this->render('add-dealer');
         } else {
             throw new ForbiddenHttpException('Доступ запрещен');
