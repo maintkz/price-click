@@ -4,8 +4,10 @@
 /* @var $content string */
 
 use backend\assets\AppAsset;
+use backend\models\AuthAssignment;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use backend\models\SellersInfo;
 
 AppAsset::register($this);
 
@@ -181,7 +183,7 @@ $this->registerJsFile(
                     ?>
 
                     <?php
-                    if(Yii::$app->user->can('add-product') && Yii::$app->user->can('edit-product')) {
+                    if(Yii::$app->user->can('add-product') && Yii::$app->user->can('edit-product') && SellersInfo::isShopAdded(Yii::$app->user->id)) {
                     ?>
 
                             <!-- Seller -->
@@ -198,15 +200,36 @@ $this->registerJsFile(
                     <?php
                     }
                     ?>
+
+                    <?php
+                    if(Yii::$app->user->can('view-dealers-statistics') && Yii::$app->user->can('view-sellers-statistics') && Yii::$app->user->can('view-customers-statistics')) {
+                    ?>
                             <li>
-                                <a href="#"><i class="icon-stats-dots" title="Статистика"></i>
-                                    <span>Статистика</span></a>
+                                <a href="#"><i class="icon-stats-dots" title="Статистика"></i><span>Статистика</span></a>
                                 <ul>
                                     <li><a href="<?= Url::to(['statistics/dealers']); ?>">Статистика по дилерам</a></li>
                                     <li><a href="<?= Url::to(['statistics/sellers']); ?>">Статистика по магазинам</a></li>
                                     <li><a href="<?= Url::to(['statistics/customers']); ?>">Статистика по покупателям</a></li>
                                 </ul>
                             </li>
+                    <?php
+                    }
+                    ?>
+
+                    <?php
+                    echo Yii::$app->user->identity->id;
+                    echo var_dump(SellersInfo::isShopAdded(Yii::$app->user->identity->id));
+                    if(!SellersInfo::isShopAdded(Yii::$app->user->identity->id)) {
+                    ?>
+                        <li>
+                            <a href="#"><i class="icon-stats-dots" title="Добавить магазине"></i><span>Магазин</span></a>
+                            <ul>
+                                <li><a href="<?= Url::to(['seller/add-shop']); ?>">Добавить информацию о магазине</a></li>
+                            </ul>
+                        </li>
+                    <?php
+                    }
+                    ?>
 
                         </ul>
 

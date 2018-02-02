@@ -10,6 +10,7 @@ namespace backend\controllers;
 
 use backend\models\AuthAssignment;
 use backend\models\ProductsList;
+use backend\models\SellersInfo;
 use backend\models\Shops;
 use Imagine\Image\ManipulatorInterface;
 use moonland\phpexcel\Excel;
@@ -215,6 +216,19 @@ class SellerController extends Controller
                 return 'asd';
             } else {
                 return $this->render('add-by-excel');
+            }
+        } else {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+    }
+
+    public function actionAddShop()
+    {
+        if (Yii::$app->helperComponent->getRole() == 'seller') {
+            if (!SellersInfo::isShopAdded(Yii::$app->user->id)) {
+                return $this->render('add-shop');
+            } else {
+
             }
         } else {
             throw new ForbiddenHttpException('Доступ запрещен');

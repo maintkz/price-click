@@ -26,6 +26,7 @@ use Yii;
  */
 class Shops extends \yii\db\ActiveRecord
 {
+    public $image;
     /**
      * @inheritdoc
      */
@@ -40,12 +41,13 @@ class Shops extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'shop_name', 'city_id', 'shop_fast_delivery', 'shop_top'], 'required'],
+            [['user_id', 'shop_name', 'city_id'], 'required'],
             [['user_id', 'shop_min_price', 'shop_delivery_price', 'city_id', 'shop_fast_delivery', 'shop_top'], 'integer'],
             [['shop_rating'], 'number'],
-            [['shop_open_time', 'shop_close_time'], 'safe'],
+            [['shop_open_time', 'shop_close_time', 'shop_fast_delivery', 'shop_top'], 'safe'],
             [['shop_pay_options', 'shop_contacts', 'shop_description'], 'string'],
             [['shop_name', 'shop_img'], 'string', 'max' => 200],
+            [['image'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 

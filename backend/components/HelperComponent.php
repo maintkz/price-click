@@ -256,6 +256,26 @@ class HelperComponent extends Component
         }
     }
 
+    public function isDealer()
+    {
+        $role = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id))[0];
+        if ($role = 'dealer') {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function isSeller()
+    {
+        $role = array_keys(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id))[0];
+        if ($role = 'seller') {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     public function onLevelBefore($array, $string)
     {
         $count = count($array);

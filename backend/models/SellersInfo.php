@@ -100,4 +100,17 @@ class SellersInfo extends \yii\db\ActiveRecord
         }
     }
 
+    public static function isShopAdded($user_id)
+    {
+        $shop_added = static::find()
+            ->select('shop_added')
+            ->where(['user_id' => $user_id])
+            ->asArray()
+            ->one();
+        if ($shop_added['shop_added'] == NULL) {
+            return TRUE;
+        }
+        settype($shop_added['shop_added'], 'BOOLEAN');
+        return $shop_added['shop_added'];
+    }
 }

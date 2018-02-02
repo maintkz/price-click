@@ -100,11 +100,49 @@ class AuthAssignment extends \yii\db\ActiveRecord
         return static::find()->select('city_id')->where(['user_id' => $user_id])->one();
     }
 
+    public static function getCityId($user_id)
+    {
+        $city_id = static::find()
+            ->select('city_id')
+            ->where(['user_id' => $user_id])
+            ->asArray()
+            ->one();
+        return $city_id['city_id'];
+    }
+
     /**
      *
      */
     public static function isVerifiedSeller($user_id)
     {
         return static::find()->select('verified')->where(['user_id' => $user_id])->one();
+    }
+
+    public static function isAdmin($user_id)
+    {
+        $role = static::find()
+            ->select('auth_item')
+            ->where(['user_id' => $user_id])
+            ->one();
+
+        if ($role == 'admin') {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public static function isSeller($user_id)
+    {
+        $role = static::find()
+            ->select('auth_item')
+            ->where(['user_id' => $user_id])
+            ->one();
+
+        if ($role == 'seller') {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }
