@@ -107,9 +107,10 @@ class SellerController extends Controller
 
         if (Yii::$app->request->isAjax) {
             $productsListModel->load(Yii::$app->request->post());
-            $productsListModel->user_id = \Yii::$app->user->identity->id;
+            $productsListModel->user_id = Yii::$app->user->identity->id;
             $productsListModel->product_list_status = 0;
-            $productsListModel->city_id = AuthAssignment::getCityIdByUserId($productsListModel->user_id);
+            $productsListModel->city_id = settype(AuthAssignment::getCityIdByUserId($productsListModel->user_id), 'INTEGER');
+            $productsListModel->shop_id = Shops::getShopIdByUserId(Yii::$app->user->identity->id);
 
             $productsModel->load(Yii::$app->request->post());
             $productsModel->images = UploadedFile::getInstances($productsModel, 'images');

@@ -95,19 +95,10 @@ class AjaxController extends Controller
      */
     public function actionGetProductsList()
     {
-//        $table['name'] = "`products_list`";
-//        $table['columns'] = '`subcategories`.`subcategory_name`, `products`.`product_name`, `products`.`product_price`, `product_list_count`, `product_list_status`, `product_list_id`, `products`.`product_id`';
-//        $table['join_tables'][0]['name'] = '`subcategories`';
-//        $table['join_tables'][0]['join_column'] = '`subcategory_id`';
-//        $table['join_tables'][1]['name'] = '`shops`';
-//        $table['join_tables'][1]['join_column'] = '`user_id`';
-//        $table['join_tables'][2]['name'] = '`products`';
-//        $table['join_tables'][2]['join_column'] = '`product_id`';
-//        $data = HelperComponent::getDataForDataTable($table);
-
         $products = ProductsList::find()
             ->select(
                 '
+                `products_list`.`product_list_id`,
                 `subcategories`.`subcategory_name`,
                 `products`.`product_name`,
                 `products`.`product_price`,
@@ -123,7 +114,7 @@ class AjaxController extends Controller
             ->asArray()
             ->all();
 
-        $data['data'] = array_map('array_values', $products);
+        $data = array_map('array_values', $products);
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;

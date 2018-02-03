@@ -1,70 +1,53 @@
-// Table setup
-// ------------------------------
-
 // Setting datatable defaults
 $.extend( $.fn.dataTable.defaults, {
-    autoWidth: false,
-    columnDefs: [{
-        orderable: false,
-        width: '100px',
-        targets: [ 5 ]
-    }],
-    dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-    language: {
-        search: '<span>Filter:</span> _INPUT_',
-        lengthMenu: '<span>Show:</span> _MENU_',
-        paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
+    "language": {
+        "url": "/admin/js/ru-datatable.json"
     },
-    drawCallback: function () {
-        $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-    },
-    preDrawCallback: function() {
-        $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-    }
 });
 
 var csrf = $('[name="_csrf-backend"]').val();
 
-// AJAX sourced data
-// $('.products-list-datatable').dataTable({
-//     ajax: "/admin/ajax/get-products-list"
-// });
-
 $.ajax({
+    utype: "POST",
     url: '/admin/ajax/get-products-list',
-    method: 'POST',
-    data: {
-        '_csrf-backend': csrf
+    success: function(data) {
+        console.log(data);
+        prepareDataForTable(data, 5);
+        $('.products-list-datatable').dataTable({
+            data: data,
+            columns: [
+                { title: "ID" },
+                { title: "Подкатегория" },
+                { title: "Наименование" },
+                { title: "Цена" },
+                { title: "Количество" },
+                { title: "Статус" },
+                { title: "Действие" }
+            ]
+        });
     },
-    success: function(response) {
-        console.log(response);
-    }
-}).fail(function (xhr) {
+}).fail(function (xhr, textStatus, errorThrown) {
     console.log(xhr.responseText);
 });
-
-//
-// Form initialisation
-//
-$('.select').select2();
-
-
-//
-// Select with icons
-//
-
-// Format icon
-function iconFormat(icon) {
-    var originalOption = icon.element;
-    if (!icon.id) { return icon.text; }
-    var $icon = "<i class='icon-" + $(icon.element).data('icon') + "'></i>" + icon.text;
-
-    return $icon;
-}
 
 /* ---------------------------------------------------*/
 /* ------------------- Functions --------------------*/
 /* ---------------------------------------------------*/
+function prepareDataForTable (data, status) {
+    data.forEach(function (item, i, data) {
+        if (item[status] == 1) {
+            item[status] = "<span class='label label-success'>Активный</span>";
+        } else if (item[status] == 0) {
+            item[status] = "<span class='label label-default'>Неактивный</span>";
+        }
+
+        item[2] = "<a href='/admin/seller/view-product/" + item[0] + "'>" + item[2] + "</a>";
+
+        item.push("<a href='/admin/administrator/view-dealer/" + item[0] + "' class='view-dealer-button' data-dealer-id='" + item[0] + "'><i class='icon-eye'></i></a>");
+    });
+}
+
+
 function nl2br (str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');

@@ -36,6 +36,7 @@ $('document').ready(function () {
     }).fail(function (xhr, textStatus, errorThrown) {
         console.log(xhr.responseText);
     });
+
 });
 
 function prepareDataForTable (data, status) {
